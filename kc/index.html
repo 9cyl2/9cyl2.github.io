@@ -10,41 +10,17 @@
   li{margin:.5rem 0}
   a{display:block;padding:.75rem 1rem;background:#fff;border:1px solid #e5e5e5;border-radius:6px;color:#0366d6;text-decoration:none;transition:transform .15s}
   a:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.05)}
+  .missing{background:#fbeaea;border-color:#e9a3a3;color:#c53030;cursor:not-allowed}
+  .missing:hover{transform:none;box-shadow:none}
 </style>
 </head>
 <body>
   <h1>📁 文件列表 / File List</h1>
-  <ul id="fileList">加载中……</ul>
+  <ul id="fileList">
+    <!-- 固定文件：按需要增删即可 -->
+    <li><a href="class1sum.html">Class 1</a></li>
+    <li><a href="class1sum.ipynb">Class 1(Jupyter Notebook)</a></li>
+  </ul>
 
-<script>
-/* GitHub Pages 没有服务器端脚本，这里用 GitHub REST API 读取目录内容 */
-const owner   = '9cyl2';           // 你的 GitHub 用户名
-const repo    = '9cyl2.github.io'; // 仓库名
-const ref     = 'main';            // 分支
-const folder  = location.pathname.replace(/\/$/, '').split('/').pop() || ''; // 当前文件夹名
-const apiUrl  = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}?ref=${ref}`;
-
-fetch(apiUrl)
-  .then(r => r.json())
-  .then(data => {
-    const list = document.getElementById('fileList');
-    list.innerHTML = '';
-    if (!Array.isArray(data)) { list.innerHTML = '<li>读取失败</li>'; return; }
-    data
-      .filter(item => item.name.toLowerCase() !== 'index.html') // 排除自己
-      .sort((a,b)=>a.type.localeCompare(b.type) || a.name.localeCompare(b.name))
-      .forEach(item => {
-        const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href   = item.name + (item.type === 'dir' ? '/' : '');
-        link.textContent = item.name;
-        li.appendChild(link);
-        list.appendChild(li);
-      });
-  })
-  .catch(() => {
-    document.getElementById('fileList').innerHTML = '<li>加载失败，请刷新重试</li>';
-  });
-</script>
 </body>
 </html>
