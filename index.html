@@ -8,7 +8,8 @@
     body {
       margin: 0;
       padding: 2rem;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif;
       background: #f7f7f7;
       color: #333;
     }
@@ -22,46 +23,50 @@
     }
     .link-list a {
       display: block;
-      margin: .8rem 0;
-      padding: .8rem 1rem;
+      margin: 0.8rem 0;
+      padding: 0.8rem 1rem;
       background: #fff;
       border: 1px solid #e5e5e5;
       border-radius: 6px;
       text-decoration: none;
       color: #0366d6;
-      transition: transform .15s;
+      transition: transform 0.15s;
     }
     .link-list a:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     }
-    .zh, .en {
+    .zh,
+    .en {
       display: block;
     }
-    .zh { font-weight: 600; }
-    .en { font-size: .9em; color: #666; }
+    .zh {
+      font-weight: 600;
+    }
+    .en {
+      font-size: 0.9em;
+      color: #666;
+    }
   </style>
 </head>
 <body>
-
   <h1>
-    <span class="zh">项目文件下载</span><br/>
-    <span class="en">Project File Downloads</span>
+    <span class="zh">项目文件夹</span><br />
+    <span class="en">Project Folders</span>
   </h1>
 
   <div class="link-list">
-    <!-- 文件 1 -->
-    <a href="kc/file1.pdf">
-      <span class="zh">文件一：示例文档</span>
-      <span class="en">File 1: Sample Document</span>
+    <!-- 文件夹 1 -->
+    <a href="KC1/">
+      <span class="zh">文件夹一：KC1</span>
+      <span class="en">Folder 1: KC1</span>
     </a>
 
-    <!-- 文件 2 -->
-    <a href="kc/file2.zip">
-      <span class="zh">文件二：资源压缩包</span>
-      <span class="en">File 2: Resource Archive</span>
+    <!-- 文件夹 2 -->
+    <a href="KC2/">
+      <span class="zh">文件夹二：KC2</span>
+      <span class="en">Folder 2: KC2</span>
     </a>
   </div>
-
 </body>
 </html>
