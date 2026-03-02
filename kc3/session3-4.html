@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 3 & 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        /* 优化：字号稍微调小，防止溢出屏幕，并允许单页滚动 */
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        /* 提示块样式优化，减小间距 */
+        .block, .alertblock, .exampleblock { margin: 15px 0; padding: 12px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 8px; font-size: 1.05em; }
+        
+        /* 文本强调颜色 */
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        /* 布局与间距优化 */
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 8px; }
+        .flex-container { display: flex; gap: 15px; }
+        .flex-col { flex: 1; }
+        
+        /* 弱化引用标记，不影响学生观看 */
+        .cite-mark { font-size: 0.5em; color: #ccc; user-select: none; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher <span class="cite-mark"></span></p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季 <span class="cite-mark"></span></small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 3: 条件概率与贝叶斯公式 <span class="cite-mark"></span></li>
+                <li>Session 4: 事件的独立性 <span class="cite-mark"></span></li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 3: 条件概率与贝叶斯公式</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 3: 条件概率 (缩小了的样本空间)</h3>
+                <p><strong>引入：</strong> 在已知某事件已经发生的“情报”下，另一个事件发生的概率会改变吗？ <span class="cite-mark"></span></p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">条件概率的定义</div>
+                    设 A, B 是两个事件，且 $P(A) > 0$，则在事件 A 已经发生的条件下，事件 B 发生的条件概率定义为： <span class="cite-mark"></span>
+                    $$ P(B|A) = \frac{P(AB)}{P(A)} $$ <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>直观几何意义：</strong> 样本空间从原来的整体 S 缩小到了 A。 <span class="cite-mark"></span></p>
+                    <div class="center" style="margin-top: 10px;">
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 3: 乘法公式 (由条件概率推导)</h3>
+                <p>将条件概率的分母乘过去，我们就得到了极其强大的<strong>乘法公式</strong>： <span class="cite-mark"></span></p>
+                
+                <ul style="margin-top: 15px;">
+                    <li class="fragment"><strong>两个事件：</strong> 
+                        $$ P(AB) = P(A)P(B|A) \quad (\text{若 } P(A) > 0) $$ <span class="cite-mark"></span>
+                    </li>
+                    <li class="fragment"><strong>三个事件：</strong>
+                        $$ P(ABC) = P(A)P(B|A)P(C|AB) $$ <span class="cite-mark"></span>
+                    </li>
+                    <li class="fragment"><strong>本质理解：</strong> 事情是一步一步发生的，后面的概率必须建立在前面已经发生的基础上。</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Session 3: 样本空间的划分 (完备事件组)</h3>
+                <p>在引入全概率公式之前，我们需要把复杂的样本空间“切蛋糕”。</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">划分的定义</div>
+                    设 $A_1, A_2, \dots, A_n$ 为一组事件，若满足：
+                    <ol>
+                        <li><strong>互不相容：</strong> $A_i A_j = \emptyset \quad (i \neq j)$ （即两两不重叠）</li>
+                        <li><strong>不重不漏：</strong> $A_1 \cup A_2 \cup \dots \cup A_n = S$ （拼起来是整个样本空间）</li>
+                    </ol>
+                    则称 $A_1, A_2, \dots, A_n$ 为样本空间 $S$ 的一个划分。
+                </div>
+
+                <div class="fragment center" style="margin-top: 15px;">
+                    
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 3: 全概率公式 (由因求果)</h3>
+                <p>当一个复杂事件 B 的发生受多种互斥原因 $A_i$ 影响时，我们可以把概率“分块求和”。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">全概率公式</div>
+                    设 $A_1, A_2, \dots, A_n$ 是样本空间的一个划分，且 $P(A_i) > 0$。则对任一事件 B，有： <span class="cite-mark"></span>
+                    $$ P(B) = \sum_{i=1}^n P(A_i)P(B|A_i) $$ <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解题口诀：</strong> “权重 $\times$ 条件概率，然后全部加起来”。<br>
+                    常用工具：<strong>概率树状图</strong>。</p>
+                    <div class="center">
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 3: 书本经典例题 (全概率与次品率)</h3>
+                <p><strong>例题：</strong> 甲、乙、丙三台机床生产同一种零件，产量占比分别为 30%, 20%, 50%，次品率分别为 2%, 3%, 1%。现从中任取一件，求它是次品的概率。 <span class="cite-mark"></span></p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">设 $A_1, A_2, A_3$ 为零件由甲、乙、丙生产（原因），B 为抽到次品（结果）。</li>
+                        <li class="fragment">提取已知先验概率：$P(A_1)=0.3, P(A_2)=0.2, P(A_3)=0.5$。 <span class="cite-mark"></span></li>
+                        <li class="fragment">提取已知条件概率：$P(B|A_1)=0.02, P(B|A_2)=0.03, P(B|A_3)=0.01$。 <span class="cite-mark"></span></li>
+                        <li class="fragment">代入全概率公式： 
+                            $$ P(B) = P(A_1)P(B|A_1) + P(A_2)P(B|A_2) + P(A_3)P(B|A_3) $$ 
+                            $$ P(B) = 0.3 \times 0.02 + 0.2 \times 0.03 + 0.5 \times 0.01 = \textcolor{#e74c3c}{0.017} $$ <span class="cite-mark"></span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 3: 贝叶斯公式 (执果索因)</h3>
+                <p><strong>灵魂拷问：</strong> 如果上题中，我查出这件零件<strong>已经是次品</strong>了，请问它是甲机床生产的概率有多大？（老板要追责了！）</p>
+                
+                <div class="exampleblock fragment">
+                    <div class="block-title">贝叶斯公式 (Bayes' Theorem)</div>
+                    $$ P(A_i|B) = \frac{P(A_i)P(B|A_i)}{\sum_{j=1}^n P(A_j)P(B|A_j)} $$ <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment">
+                    <p><strong>解析续：</strong> 求 $P(A_1|B)$。</p>
+                    <ul>
+                        <li>分子（甲导致次品的概率）：$P(A_1)P(B|A_1) = 0.3 \times 0.02 = 0.006$</li>
+                        <li>分母（全概率，刚刚算过）：$P(B) = 0.017$</li>
+                        <li>最终结果：$P(A_1|B) = \frac{0.006}{0.017} \approx \textcolor{#2980b9}{35.3\%}$</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 3: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P21 (习题 1-4)</div>
+                    <ul>
+                        <li><strong>第 1 题</strong> （条件概率基础计算） <span class="cite-mark"></span></li>
+                        <li><strong>第 4 题</strong> （乘法公式应用） <span class="cite-mark"></span></li>
+                        <li><strong>第 5 题</strong> （全概率公式经典应用） <span class="cite-mark"></span></li>
+                        <li><strong>第 8 题</strong> （贝叶斯公式经典应用） <span class="cite-mark"></span></li>
+                    </ul>
+                </div>
+                <p style="margin-top: 20px;"><em>提示：做第5、8题时，强烈建议大家在草稿纸上画出树状图！</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 4: 事件的独立性</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 4: 独立性的定义</h3>
+                <p><strong>引入：</strong> 如果事件 A 的发生对事件 B 发生的概率<strong>毫无影响</strong>，我们就说它们是独立的。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">相互独立的数学定义</div>
+                    设 A, B 是两个事件，如果满足：
+                    $$ P(AB) = P(A)P(B) $$ <span class="cite-mark"></span>
+                    则称事件 A 与事件 B 相互独立。 <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 20px;">
+                    <p><strong>重要定理：</strong> 若 A 与 B 独立，则下列三对事件也相互独立： <span class="cite-mark"></span></p>
+                    <div class="center" style="margin-top: 15px; font-size: 1.1em;">
+                        <span class="text-teal">A 与 $\bar{B}$</span> &nbsp; | &nbsp; 
+                        <span class="text-teal">$\bar{A}$ 与 B</span> &nbsp; | &nbsp; 
+                        <span class="text-teal">$\bar{A}$ 与 $\bar{B}$</span> <span class="cite-mark"></span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 4: 防坑指南 (独立 vs 互斥)</h3>
+                <div class="flex-container">
+                    <div class="flex-col fragment">
+                        <div class="block">
+                            <div class="block-title">互不相容 (互斥)</div>
+                            <ul>
+                                <li><strong>表达式：</strong> $A \cap B = \emptyset$</li>
+                                <li><strong>概率：</strong> $P(AB) = 0$</li>
+                                <li><strong>含义：</strong> 你发生，我就绝对不发生。（属于强烈的排斥关系）</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-col fragment">
+                        <div class="exampleblock">
+                            <div class="block-title">相互独立</div>
+                            <ul>
+                                <li><strong>表达式：</strong> $P(AB) = P(A)P(B)$</li>
+                                <li><strong>概率：</strong> 乘积关系</li>
+                                <li><strong>含义：</strong> 你发不发生，跟我毫无关系。（属于完全的路人关系）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fragment center" style="margin-top: 20px;">
+                    <p><span class="text-red"><strong>绝对真理：</strong></span> 除非其中一个是概率为0的不可能事件，否则<strong>互斥必然不独立，独立必然不互斥！</strong></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 4: 多个事件的独立性</h3>
+                <p>三个事件 A, B, C 相互独立，要求比两两独立更严格！必须同时满足四个等式： <span class="cite-mark"></span></p>
+                
+                <ul style="margin-top: 15px;">
+                    <li class="fragment">$P(AB) = P(A)P(B)$</li>
+                    <li class="fragment">$P(AC) = P(A)P(C)$</li>
+                    <li class="fragment">$P(BC) = P(B)P(C)$</li>
+                    <li class="fragment"><span class="text-red">$P(ABC) = P(A)P(B)P(C)$</span> &nbsp; $\leftarrow$ （缺一不可！） <span class="cite-mark"></span></li>
+                </ul>
+                
+                <div class="fragment" style="margin-top: 20px;">
+                    <p><strong>工程意义：</strong> 多个独立元件组成的系统，联合概率可以直接连乘。这大大简化了复杂系统的可靠性计算。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 4: 经典例题 (至少发生问题)</h3>
+                <p><strong>例题：</strong> 甲、乙两人独立对同一目标进行射击，甲的命中率为 0.8，乙的命中率为 0.7。求目标被命中的概率。 <span class="cite-mark"></span></p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解析 (正面硬刚法)：</strong> 分三种情况。<br>
+                    $P = P(A\bar{B}) + P(\bar{A}B) + P(AB) = 0.8\times0.3 + 0.2\times0.7 + 0.8\times0.7 = 0.94$。 <span class="cite-mark"></span></p>
+                </div>
+                
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">解析 (逆向思维法 / 正难则反)：</div>
+                    <p>目标被命中 = <strong>至少</strong>一人命中。 <span class="cite-mark"></span><br>
+                    对立事件 = <strong>两人都没命中</strong>（即 $\bar{A}\bar{B}$）。 <span class="cite-mark"></span></p>
+                    $$ P = 1 - P(\bar{A}\bar{B}) $$ <span class="cite-mark"></span>
+                    <p>因为独立，</p>
+                    $$ P = 1 - P(\bar{A})P(\bar{B}) = 1 - (1-0.8) \times (1-0.7) = 1 - 0.06 = \textcolor{#e74c3c}{0.94} $$ <span class="cite-mark"></span>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 4: 工程应用 (系统可靠性计算)</h3>
+                <p>假设三个元件 1, 2, 3 独立工作，可靠性均为 $p$。 <span class="cite-mark"></span></p>
+                
+                <div class="fragment center" style="margin-top: 10px; margin-bottom: 10px;">
+                    
+                </div>
+                
+                <div class="fragment">
+                    <p><strong>1. 串联系统 (一损俱损)：</strong> <span class="cite-mark"></span></p>
+                    <ul>
+                        <li>系统正常 $\Leftrightarrow$ 所有元件正常。 <span class="cite-mark"></span></li>
+                        <li>$P_{\text{串}} = P(A_1 A_2 A_3) = P(A_1)P(A_2)P(A_3) = \textcolor{#16a085}{p^3}$ <span class="cite-mark"></span></li>
+                    </ul>
+                </div>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>2. 并联系统 (安全冗余)：</strong></p>
+                    <ul>
+                        <li>系统正常 $\Leftrightarrow$ 至少一个元件正常。（正难则反！）</li>
+                        <li>系统损坏 $\Leftrightarrow$ 所有元件全部损坏。</li>
+                        <li>$P_{\text{并}} = 1 - P(\bar{A_1}\bar{A_2}\bar{A_3}) = 1 - (1-p)^3$</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 4: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P26 (习题 1-5)</div>
+                    <ul>
+                        <li><strong>第 4 题</strong> （独立射击命中概率模型） <span class="cite-mark"></span></li>
+                        <li><strong>第 6 题</strong> （串并联系统可靠性计算） <span class="cite-mark"></span></li>
+                        <li><strong>第 7 题</strong> （利用定义证明事件独立性） <span class="cite-mark"></span></li>
+                    </ul>
+                </div>
+                <p style="margin-top: 20px;"><em>复习建议：第一章的所有内容至此结束。独立性、加法公式、乘法公式、全概率公式构成了概率论的基础网络，务必通过作业熟练掌握。</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 若事件 A 和 B 满足 $P(A) > 0, P(B) > 0$，且 A 与 B 互不相容，则 A 与 B（ ）。</strong></p>
+                    <ol type="A">
+                        <li>必然相互独立</li>
+                        <li>必然不相互独立</li>
+                        <li>不一定独立</li>
+                        <li>是对立事件</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：由于互斥，$P(AB)=0$。但 $P(A) > 0$ 且 $P(B) > 0$，所以 $P(A)P(B) > 0$。显然 $P(AB) \neq P(A)P(B)$，因此必然不独立。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment">
+                    <p><strong>2. 已知 $P(A)=0.4, P(B)=0.5$，且 A 与 B 相互独立，则 $P(A \cup B)$ 等于（ ）。</strong></p>
+                    <ol type="A">
+                        <li>0.9</li>
+                        <li>0.7</li>
+                        <li>0.2</li>
+                        <li>0.1</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：因为独立，$P(AB) = P(A)P(B) = 0.4 \times 0.5 = 0.2$。再由加法公式 $P(A \cup B) = 0.4 + 0.5 - 0.2 = 0.7$。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：</strong> 在贝叶斯公式中，我们称 $P(A_i)$ 为<strong>先验概率</strong>。那么通过贝叶斯公式计算得出的结果 $P(A_i|B)$ 通常被称作什么概率？</p>
+                    <p class="fragment text-teal" style="margin-top: 5px;">
+                        <strong>👉 答案：后验概率</strong>
+                    </p>
+                </div>
+
+                <div class="alertblock fragment">
+                    <p><strong>考核 2：</strong> 已知患某病的概率为 1%，某试剂检测准确率为 90%。若某人测出阳性，求真正患病的概率大约是多少？（只列公式即可）</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：（贝叶斯公式应用）</strong></p>
+                        <ul>
+                            <li>设 A = "患病", $\bar{A}$ = "无病"。 B = "检测为阳性"。</li>
+                            <li>$P(A)=0.01$, $P(\bar{A})=0.99$</li>
+                            <li>$P(B|A)=0.9$, $P(B|\bar{A})=0.1$ （无病却误诊的概率）</li>
+                            <li><span class="text-blue">$$ P(A|B) = \frac{0.01 \times 0.9}{0.01 \times 0.9 + 0.99 \times 0.1} \approx 8.3\% $$</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        // 启用 Math 插件渲染公式
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>
+
