@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        .reveal section { text-align: left; font-size: 0.85em; }
+        .reveal .center { text-align: center; }
+        
+        /* 还原 Beamer 的 Block 设计 */
+        .block, .alertblock, .exampleblock {
+            margin: 20px 0; padding: 15px; border-radius: 4px; font-size: 0.9em; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 10px; font-size: 1.05em; }
+        
+        /* 文本强调颜色 */
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        
+        /* 布局与间距优化 */
+        .reveal ul, .reveal ol { margin-bottom: 15px; }
+        .reveal li { margin-bottom: 12px; }
+        .flex-container { display: flex; gap: 20px; }
+        .flex-col { flex: 1; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：Sports Teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 1: 绪论 & 随机事件</li>
+                <li>Session 2: 随机事件的概率 & 古典概率</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 1: 绪论 & 随机事件</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 1: 课程简介与导语</h3>
+                <p><strong>什么是概率论与数理统计？</strong></p>
+                <ul>
+                    <li class="fragment"><strong>确定性现象：</strong> 在一定条件下，必然发生某种结果的现象。（如：向上抛石头，必然下落；水加热到100度必然沸腾）。</li>
+                    <li class="fragment"><strong>随机现象：</strong> 在一定条件下，可能出现这种结果，也可能出现那种结果，事先无法预知。（如：抛掷一枚硬币；明天是否下雨；股票的涨跌）。</li>
+                </ul>
+                
+                <div class="fragment alertblock" style="margin-top: 30px;">
+                    <div class="block-title">学科使命</div>
+                    概率论与数理统计就是一门研究和探索<strong>客观世界随机现象规律性</strong>的数学学科。
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 1: 随机试验 (Random Experiment)</h3>
+                <p>为了研究随机现象，我们需要对其进行观察或实验。把满足以下<strong>三个条件</strong>的试验称为<strong>随机试验</strong> ($E$)：</p>
+                <ol>
+                    <li class="fragment"><strong>可重复性：</strong> 可以在相同的条件下重复进行；</li>
+                    <li class="fragment"><strong>可知性：</strong> 每次试验的可能结果不止一个，且能事先明确所有可能结果；</li>
+                    <li class="fragment"><strong>不可预知性：</strong> 进行一次试验之前不能确定哪一个结果会出现。</li>
+                </ol>
+                <div class="fragment" style="margin-top: 30px;">
+                    <p><strong>互动思考：</strong> “掷一颗骰子，观察出现的点数” 是否为随机试验？</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 1: 样本空间与样本点</h3>
+                <ul>
+                    <li class="fragment"><strong>样本空间 ($S$ 或 $\Omega$)：</strong> 随机试验 $E$ 的所有可能结果组成的集合。</li>
+                    <li class="fragment"><strong>样本点 ($\omega$)：</strong> 样本空间的元素，即试验 $E$ 的每一个可能结果。</li>
+                </ul>
+                <div class="fragment" style="margin-top: 30px;">
+                    <p><strong>例题演示：写出下列随机试验的样本空间</strong></p>
+                    <ol>
+                        <li class="fragment">$E_1$：抛掷一枚硬币，观察正面 (H) 与反面 (T) 出现的情况。<br>
+                            <span class="text-blue">$\Rightarrow S_1 = \{H, T\}$</span>
+                        </li>
+                        <li class="fragment">$E_2$：记录某城市一天的交通事故总数。<br>
+                            <span class="text-blue">$\Rightarrow S_2 = \{0, 1, 2, \dots \}$</span>
+                        </li>
+                        <li class="fragment">$E_3$：测试某批次灯泡的寿命 $t$（小时）。<br>
+                            <span class="text-blue">$\Rightarrow S_3 = \{t \,|\, t \ge 0\}$</span>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 1: 随机事件 (Random Events)</h3>
+                <p><strong>定义：</strong> 样本空间 $S$ 的子集称为<strong>随机事件</strong>，简称<strong>事件</strong>。</p>
+                <ul>
+                    <li class="fragment"><strong>发生：</strong> 当且仅当这一子集中的一个样本点出现时，称这一事件发生。</li>
+                    <li class="fragment"><strong>基本事件：</strong> 由一个样本点组成的单点集。</li>
+                    <li class="fragment"><strong>必然事件 ($S$)：</strong> 每次试验中必定发生的事件。</li>
+                    <li class="fragment"><strong>不可能事件 ($\emptyset$)：</strong> 每次试验中必定不发生的事件。</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Session 1: 互不相容与对立事件 (核心考点)</h3>
+                <div class="flex-container">
+                    <div class="flex-col fragment">
+                        <div class="block">
+                            <div class="block-title">互不相容 (互斥) 事件</div>
+                            <ul>
+                                <li>$A \cap B = \emptyset$</li>
+                                <li>含义：$A$ 与 $B$ 不能同时发生。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flex-col fragment">
+                        <div class="exampleblock">
+                            <div class="block-title">对立事件 (逆事件 $\bar{A}$)</div>
+                            <ul>
+                                <li>$A \cup B = S$ 且 $A \cap B = \emptyset$</li>
+                                <li>含义：每次试验中 $A, B$ 仅有一个发生。$B = \bar{A}$。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fragment" style="margin-top: 20px; text-align: center;">
+                    <p style="text-align: left;"><strong>易错点提示：</strong> 对立必然互斥，互斥不一定对立！</p>
+                    <br>
+                    
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 1: 课堂例题解析</h3>
+                <p><strong>例题：</strong> 设 $A, B, C$ 为三个事件，用运算关系式表示下列事件：</p>
+                
+                <div class="fragment">
+                    <p><strong>1. $A, B, C$ 都不发生：</strong></p>
+                    <p class="fragment text-teal">$\bar{A}\bar{B}\bar{C}$ 或 $\overline{A \cup B \cup C}$</p>
+                </div>
+                
+                <div class="fragment">
+                    <p><strong>2. $A, B, C$ 中至少有一个发生：</strong></p>
+                    <p class="fragment text-teal">$A \cup B \cup C$</p>
+                </div>
+                
+                <div class="fragment">
+                    <p><strong>3. $A, B, C$ 中恰有一个发生：</strong></p>
+                    <p class="fragment text-teal">$A\bar{B}\bar{C} \cup \bar{A}B\bar{C} \cup \bar{A}\bar{B}C$</p>
+                </div>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 2: 随机事件的概率 & 古典概率</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 2: 频率与概率的演进</h3>
+                <ul>
+                    <li class="fragment"><strong>频率 $f_n(A)$：</strong> 在 $n$ 次试验中，事件 $A$ 发生的次数 $n_A$ 的比值 $f_n(A) = \frac{n_A}{n}$。</li>
+                    <li class="fragment"><strong>频率的稳定性：</strong> 试验次数 $n$ 极大时，频率会在一个稳定值 $p$ 附近摆动。</li>
+                    <li class="fragment"><strong>概率的统计定义：</strong> 这个稳定的客观数值 $p$ 就是概率 $P(A)$。</li>
+                </ul>
+                
+                <div class="fragment alertblock" style="margin-top: 30px;">
+                    <div class="block-title">公理化定义 (柯尔莫哥洛夫，1933)</div>
+                    为了数学上的严谨，规定概率必须满足：<strong>非负性、规范性 ($P(S)=1$)、可列可加性</strong>。
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 2: 概率的加法公式 (极其重要)</h3>
+                <div class="block">
+                    <div class="block-title">加法公式</div>
+                    对于任意两个事件 $A$ 和 $B$：<br>
+                    $$ P(A \cup B) = P(A) + P(B) - P(AB) $$
+                </div>
+                
+                <div class="fragment" style="margin-top: 20px;">
+                    <p><strong>推广到三个事件：</strong></p>
+                    $$ P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(AB) - P(AC) - P(BC) + P(ABC) $$
+                </div>
+                
+                <div class="fragment" style="margin-top: 20px; text-align: center;">
+                    <p style="text-align: left;"><em>直观理解：</em> 韦恩图面积的计算（容斥原理）。两圆相交多加了的交集面积要减去一次。</p>
+                    <br>
+                    
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 2: 古典概型 (等可能概型)</h3>
+                <p><strong>定义：</strong> 若随机试验满足以下两个条件，则称为古典概型：</p>
+                <ol>
+                    <li class="fragment"><strong>有限性：</strong> 样本空间 $S$ 只包含有限个样本点 $n$。</li>
+                    <li class="fragment"><strong>等可能性：</strong> 每个基本事件发生的概率相等。</li>
+                </ol>
+                
+                <div class="fragment exampleblock" style="margin-top: 30px;">
+                    <div class="block-title">古典概型计算公式</div>
+                    设事件 $A$ 包含 $m$ 个样本点，则：
+                    $$ P(A) = \frac{m}{n} = \frac{\text{事件 } A \text{ 包含的样本点数}}{\text{样本空间 } S \text{ 的总样本点数}} $$
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 2: 古典概型例题 —— 摸球模型</h3>
+                <p><strong>例题：</strong> 袋中有 3 个红球和 4 个白球。从中<strong>无放回</strong>地任取 2 个球。<br>
+                求：(1) 两个都是红球的概率； (2) 一红一白的概率。</p>
+                
+                <div class="fragment" style="margin-top: 20px; text-align: center;">
+                    
+                </div>
+
+                <div class="fragment" style="margin-top: 20px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">样本空间总点数（从 7 个球中取 2 个）：$n = C_7^2 = 21$。</li>
+                        <li class="fragment"><strong>(1) 设 $A$ = "全是红球"：</strong><br>
+                            取法数为 $m_1 = C_3^2 = 3$。 <br>
+                            $P(A) = \frac{3}{21} = \frac{1}{7}$。
+                        </li>
+                        <li class="fragment"><strong>(2) 设 $B$ = "一红一白"：</strong><br>
+                            利用乘法原理，取法数为 $m_2 = C_3^1 \times C_4^1 = 12$。<br>
+                            $P(B) = \frac{12}{21} = \frac{4}{7}$。
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/math/math.min.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        // 启用 Math 插件渲染公式
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>
