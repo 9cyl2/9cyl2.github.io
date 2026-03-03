@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 15px 0; padding: 12px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 8px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 8px; }
+        .flex-container { display: flex; gap: 15px; }
+        .flex-col { flex: 1; }
+        
+        /* 弱化引用标记，不影响学生观看 */
+        .cite-mark { font-size: 0.5em; color: #ccc; user-select: none; display: none; } /* 默认隐藏以保持界面整洁 */
+        
+        /* 表格居中及样式优化 */
+        .reveal table { margin: 0 auto; border-collapse: collapse; width: auto; }
+        .reveal th, .reveal td { border-bottom: 1px solid #ccc; padding: 8px 15px; text-align: center; }
+        .reveal th { border-top: 2px solid #333; border-bottom: 2px solid #333; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时） <span class="cite-mark"></span></h2>
+            <h4>2025-2026 学年第二学期 <span class="cite-mark"></span></h4>
+            <br>
+            <p>授课教师：sports teacher <span class="cite-mark"></span></p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季 <span class="cite-mark"></span></small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 5: 随机变量与离散型分布 <span class="cite-mark"></span></li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 5: 随机变量与离散型分布</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 5: 为什么要引入随机变量？ (从事件到数字)</h3>
+                <p><strong>知识回顾：</strong> 在第一章里，我们习惯用 A, B, C 等字母来代表“正面朝上”、“次品”等具体事件。但这在进行数学运算时极不方便！ <span class="cite-mark"></span></p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">随机变量 (Random Variable) 的核心定义</div>
+                    假定某个随机试验的样本空间是 S。若对任意一个样本点 $\omega\in S$，都存在唯一确定的实数值 $X(\omega)$ 和它对应，则该实值函数 $X=X(\omega)$ 被统称为随机变量。 <span class="cite-mark"></span>
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>核心思想：</strong> 把抽象的“实验结果”转化为了具体的“数字”（即数字化）。 <span class="cite-mark"></span></p>
+                    <div class="center" style="margin-top: 10px;">
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 5: 离散型随机变量与分布律</h3>
+                <p><strong>概念：</strong> 若某随机变量 X 所能取到的所有值表现为有限个，或者是可列举的无限多个，我们就叫它离散型随机变量。 <span class="cite-mark"></span></p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">分布律 (Probability Mass Function)</div>
+                    为了完整刻画离散型随机变量的特征，必须搞清楚两件事：它可能取到哪些数值？取得各个数值的对应概率又是多大？ <span class="cite-mark"></span>
+                    $$ P(X=x_{k})=p_{k}, \quad k=1,2,3,... $$ <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>分布律的表格呈现方式：</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>$X$</th>
+                                <th>$x_1$</th>
+                                <th>$x_2$</th>
+                                <th>$...$</th>
+                                <th>$x_k$</th>
+                                <th>$...$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$p_k$</td>
+                                <td>$p_1$</td>
+                                <td>$p_2$</td>
+                                <td>$...$</td>
+                                <td>$p_k$</td>
+                                <td>$...$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><span class="text-red"><strong>两大核心性质：</strong></span> (1) 非负性: $p_{k}\ge0$; (2) 规范性: $\sum_{k}p_{k}=1$. <span class="cite-mark"></span></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 5: 常见离散分布一 —— (0-1) 分布</h3>
+                <p>此为最基础的随机变量形式，常用于表示单次试验中“非黑即白”或“成败与否”的结果。 <span class="cite-mark"></span></p>
+                
+                <div class="exampleblock fragment">
+                    <div class="block-title">两点分布 / (0-1) 分布</div>
+                    假如随机变量 X 仅仅取 0 与 1 这两个数字，其概率分布满足： <span class="cite-mark"></span>
+                    $$ P(X=1)=p, \quad P(X=0)=1-p=q \quad (0<p<1) $$ <span class="cite-mark"></span>
+                    则称 X 服从参数为 p 的 (0-1) 分布，记作 $X\sim B(1,p)$。 <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>常见应用场景：</strong></p>
+                    <ul>
+                        <li>质检一件产品：数字 1 代表残次品，0 代表合格品。 <span class="cite-mark"></span></li>
+                        <li>进行一次投篮：数字 1 代表命中，0 代表打铁。 <span class="cite-mark"></span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 5: 常见离散分布二 —— 二项分布</h3>
+                <p><strong>伯努利试验模型：</strong> 将单次成功概率为 p 的 (0-1) 试验，在完全相同的条件下独立地重复进行 n 次。 <span class="cite-mark"></span></p>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">二项分布 (Binomial Distribution)</div>
+                    假设随机变量 X 代表了 n 重伯努利试验里“取得成功的总次数”。那么 X 可能取到的结果就是 $0,1,2,...,n$，对应的分布律为： <span class="cite-mark"></span>
+                    $$ P(X=k)=C_{n}^{k}p^{k}(1-p)^{n-k}, \quad k=0,1,2,...,n $$ <span class="cite-mark"></span>
+                    称 X 服从参数为 n 和 p 的二项分布，记作 $X\sim B(n,p)$。 <span class="cite-mark"></span>
+                </div>
+                
+                <div class="fragment center" style="margin-top: 15px;">
+                     
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 5: "Sports Teacher” 专属例题 (二项分布)</h3>
+                <p><strong>例题：</strong> 某篮球运动员的罚球命中率保持在 0.8。在比赛的最后关键时刻，他获得了 3 次罚球机会。假设每次罚球相互独立。 <span class="cite-mark"></span></p>
+                <p>求：(1) 他恰好罚进 2 球的概率；(2) 他至少罚进 1 球的概率。 <span class="cite-mark"></span></p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解析：</strong> 这是一个典型的 $n=3$ 重伯努利试验。设 X 为罚进的球数，则 $X\sim B(3,0.8)$。 <span class="cite-mark"></span></p>
+                    <ul>
+                        <li class="fragment"><strong>(1) 恰好进 2 球 $(X=2)$: <span class="cite-mark"></span></strong><br>
+                            $$ P(X=2)=C_{3}^{2}(0.8)^{2}(1-0.8)^{3-2}=3\times0.64\times0.2=\textcolor{#16a085}{0.384} $$ <span class="cite-mark"></span>
+                        </li>
+                        <li class="fragment"><strong>(2) 至少进 1 球 $(X\ge1)$：(利用正难则反!) <span class="cite-mark"></span></strong><br>
+                            $$ P(X\ge1)=1-P(X=0) $$ <span class="cite-mark"></span>
+                            $$ P(X\ge1)=1-C_{3}^{0}(0.8)^{0}(0.2)^{3}=1-0.008=\textcolor{#e74c3c}{0.992} $$ <span class="cite-mark"></span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 5: 常见离散分布三 —— 泊松分布</h3>
+                <p>当二项分布中，试验次数 n 非常大，而单次成功率 p 非常小，且 $np=\lambda$(常数)时，二项分布的极限就是泊松分布。 <span class="cite-mark"></span></p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">泊松分布 (Poisson Distribution)</div>
+                    若随机变量 X 的所有可能取值为 $0,1,2,...$，且分布律为： <span class="cite-mark"></span>
+                    $$ P(X=k)=\frac{\lambda^{k}e^{-\lambda}}{k!}, \quad k=0,1,2,... \quad (\lambda>0) $$ <span class="cite-mark"></span>
+                    则称 X 服从参数为 $\lambda$ 的泊松分布，记作 $X\sim P(\lambda)$ 或 $X\sim\pi(\lambda)$。 <span class="cite-mark"></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>现实意义(描述“稀有事件”的发生次数): <span class="cite-mark"></span></strong></p>
+                    <ul>
+                        <li>一小时内到达某十字路口的车辆数。 <span class="cite-mark"></span></li>
+                        <li>一本书中每一页印刷错误的字数。 <span class="cite-mark"></span></li>
+                        <li>某放射性物质在规定时间内放出的粒子数。 <span class="cite-mark"></span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 5: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P45 (习题 2-1 & 2-2) <span class="cite-mark"></span></div>
+                    <ul>
+                        <li><strong>第 2 题</strong> (分布律的性质：利用 $\sum p_{k}=1$ 求解未知参数) <span class="cite-mark"></span></li>
+                        <li><strong>第 5 题</strong> (0-1 分布与抽样模型的结合) <span class="cite-mark"></span></li>
+                        <li><strong>第 8 题</strong> (二项分布模型：流水线次品问题) <span class="cite-mark"></span></li>
+                        <li><strong>第 11 题</strong> (泊松分布的直接计算与查表) <span class="cite-mark"></span></li>
+                    </ul>
+                </div>
+                <p style="margin-top: 20px;"><em>复习建议：请大家务必牢记二项分布和泊松分布的公式形式！考试中绝大部分离散型考题都围绕这两个核心分布展开。 <span class="cite-mark"></span></em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 设离散型随机变量 X 的所有可能取值为 -1, 0, 1，对应的概率分别为 0.2, 0.5, p，则 p 的值必然是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>0.1</li>
+                        <li>0.2</li>
+                        <li>0.3</li>
+                        <li>0.5</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：考查分布律的规范性（概率和为 1）。$0.2 + 0.5 + p = 1$，解得 $p = 0.3$。 <span class="cite-mark"></span></span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 20px;">
+                    <p><strong>2. 下列哪种随机现象最适合用“泊松分布”来描述？（ ）</strong></p>
+                    <ol type="A">
+                        <li>抛掷 10 枚硬币，观察正面朝上的总个数</li>
+                        <li>某篮球老师连续罚球 5 次，罚进的次数</li>
+                        <li>检查一件工厂流水线上的产品是否为次品</li>
+                        <li>某偏僻的十字路口在一小时内经过的车辆数</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：D</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：泊松分布常用于描述单位时间/空间内“稀有事件”发生的次数。 <span class="cite-mark"></span>选项 A、B 属于二项分布，选项 C 属于 (0-1) 分布。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：</strong> 若某随机变量 $X \sim B(1, p)$，说明 X 服从什么分布？它通常用来描述什么类型的试验？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 服从 (0-1) 分布（或两点分布）。通常用来描述只有两种可能结果（“非黑即白”、“成功或失败”）的单次试验。 <span class="cite-mark"></span></p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 20px;">
+                    <p><strong>考核 2：</strong> 某射击运动员每次击中目标的概率为 0.9。现他独立进行了 3 次射击，设击中目标的总次数为 X。请写出 X 服从的分布，以及“三次全中”的概率算式。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>这是一个 n=3，p=0.9 的独立重复（伯努利）试验。 <span class="cite-mark"></span></li>
+                            <li>因此 X 服从二项分布，记作：<span class="text-blue">$X \sim B(3, 0.9)$</span> <span class="cite-mark"></span></li>
+                            <li>三次全中即要求 $X=3$。代入二项分布公式：<br>
+                                <span class="text-blue">$$ P(X=3) = C_3^3 (0.9)^3 (1-0.9)^0 = 0.9^3 = 0.729 $$</span> <span class="cite-mark"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节 <span class="cite-mark"></span></h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>
