@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 隐藏引用标记 */
+        .cite-mark { display: none; }
+        
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        svg {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            max-width: 450px;
+            max-height: 220px; /* 严格限制最大高度，防止把下面的文字挤出屏幕 */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 6: 连续型随机变量及其分布</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 6: 连续型随机变量及其分布</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 6: 连续型随机变量与概率密度函数</h3>
+                <p><strong>引入：</strong> 离散型变量可以“一个一个数出来”，但连续型变量（如<strong>百米冲刺时间</strong>）是连续不断的。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">概率密度函数 (Probability Density Function, PDF)</div>
+                    若存在非负可积函数 $f(x)$，使得对于任意 $a < b$，都有：
+                    $$ P(a < X < b) = \int_{a}^{b} f(x) dx $$
+                    则称 $X$ 为连续型随机变量，$f(x)$ 为其概率密度函数。
+                </div>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 300">
+                        <defs>
+                            <marker id="arrow1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                            <clipPath id="shadeArea">
+                                <rect x="150" y="0" width="130" height="300" />
+                            </clipPath>
+                        </defs>
+                        <line x1="40" y1="260" x2="480" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrow1)"/>
+                        <line x1="50" y1="270" x2="50" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow1)"/>
+                        <path d="M 50 258 C 130 258, 180 60, 250 60 C 320 60, 370 258, 450 258" fill="rgba(41, 128, 185, 0.25)" clip-path="url(#shadeArea)"/>
+                        <path d="M 50 258 C 130 258, 180 60, 250 60 C 320 60, 370 258, 450 258" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        <line x1="150" y1="260" x2="150" y2="148" stroke="#333" stroke-dasharray="5,5"/>
+                        <line x1="280" y1="260" x2="280" y2="82" stroke="#333" stroke-dasharray="5,5"/>
+                        <text x="145" y="280" font-family="serif" font-style="italic" font-size="16">a</text>
+                        <text x="275" y="280" font-family="serif" font-style="italic" font-size="16">b</text>
+                        <text x="470" y="285" font-family="serif" font-style="italic" font-size="16">x</text>
+                        <text x="10" y="30" font-family="serif" font-style="italic" font-size="16">f(x)</text>
+                        <text x="175" y="150" font-family="sans-serif" fill="#2c3e50" font-weight="bold" font-size="14">P(a &lt; X &lt; b)</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: 概率密度的核心性质 (极其重要)</h3>
+                <p>连续型随机变量的概率，本质上就是<strong>求密度函数曲线下的面积</strong>！</p>
+                
+                <ul style="margin-top: 15px;">
+                    <li class="fragment"><strong>1. 非负性：</strong> $f(x) \ge 0$ （密度不能是负的）。</li>
+                    <li class="fragment"><strong>2. 规范性：</strong> $\int_{-\infty}^{+\infty} f(x) dx = 1$ （曲线下总面积为1，即总概率为1）。</li>
+                    <li class="fragment"><strong>3. 单点概率为零：</strong> 对于确定的数值 $a$，$P(X=a) = \int_{a}^{a} f(x) dx = 0$。</li>
+                </ul>
+
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">易错点防坑</div>
+                    对于连续型随机变量，<strong>“概率为0”不代表“不可能发生”</strong>！而且计算区间概率时，边界带不带等号都一样：
+                    $$ P(a \le X \le b) = P(a < X < b) $$
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: 常见连续分布一 —— 均匀分布</h3>
+                <p><strong>物理意义：</strong> 变量在某个区间内取任何值的可能性是“均等”的。</p>
+                
+                <div class="exampleblock fragment">
+                    <div class="block-title">均匀分布 $U(a,b)$</div>
+                    若 $X$ 的密度函数在区间 $(a,b)$ 上是常数，在其他地方为 0，即：
+                    $$ 
+                    f(x) = \begin{cases} 
+                    \frac{1}{b-a}, & a < x < b \\ 
+                    0, & \text{其他} 
+                    \end{cases} 
+                    $$
+                </div>
+
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 300">
+                        <defs>
+                            <marker id="arrow2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <line x1="40" y1="260" x2="480" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrow2)"/>
+                        <line x1="50" y1="270" x2="50" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow2)"/>
+                        <line x1="50" y1="258" x2="150" y2="258" stroke="#2980b9" stroke-width="3"/>
+                        <line x1="150" y1="100" x2="350" y2="100" stroke="#2980b9" stroke-width="3"/>
+                        <line x1="350" y1="258" x2="450" y2="258" stroke="#2980b9" stroke-width="3"/>
+                        <line x1="150" y1="260" x2="150" y2="100" stroke="#333" stroke-dasharray="5,5"/>
+                        <line x1="350" y1="260" x2="350" y2="100" stroke="#333" stroke-dasharray="5,5"/>
+                        <line x1="50" y1="100" x2="150" y2="100" stroke="#333" stroke-dasharray="5,5"/>
+                        <circle cx="150" cy="258" r="4" fill="#fff" stroke="#2980b9" stroke-width="2"/>
+                        <circle cx="350" cy="258" r="4" fill="#fff" stroke="#2980b9" stroke-width="2"/>
+                        <circle cx="150" cy="100" r="4" fill="#2980b9"/>
+                        <circle cx="350" cy="100" r="4" fill="#2980b9"/>
+                        <text x="145" y="280" font-family="serif" font-style="italic" font-size="16">a</text>
+                        <text x="345" y="280" font-family="serif" font-style="italic" font-size="16">b</text>
+                        <text x="10" y="105" font-family="serif" font-style="italic" font-size="14">1/(b-a)</text>
+                        <text x="470" y="285" font-family="serif" font-style="italic" font-size="16">x</text>
+                        <text x="10" y="30" font-family="serif" font-style="italic" font-size="16">f(x)</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: 常见连续分布二 —— 指数分布</h3>
+                <p><strong>物理意义：</strong> 常用于描述“等待时间”或“寿命”。比如等待空出篮球场的时间、体测计时器的寿命。</p>
+                
+                <div class="block fragment">
+                    <div class="block-title">指数分布 $E(\lambda)$</div>
+                    若 $X$ 的密度函数为：
+                    $$ 
+                    f(x) = \begin{cases} 
+                    \lambda e^{-\lambda x}, & x > 0 \\ 
+                    0, & x \le 0 
+                    \end{cases} 
+                    \quad (\lambda > 0)
+                    $$
+                    则称 $X$ 服从参数为 $\lambda$ 的指数分布。
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><span class="text-red"><strong>神奇特性（无记忆性）：</strong></span> $P(X > s+t \mid X > s) = P(X > t)$。<br>
+                    （你等校车等了 10 分钟没来，接下去还要等的时间概率，和刚开始等是一模一样的！）</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: 常见连续分布三 —— 正态分布</h3>
+                <p>自然界中受大量微小独立因素叠加影响的变量（如身高、体测成绩）都服从正态分布。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">正态分布 (高斯分布) $N(\mu, \sigma^2)$</div>
+                    其密度函数为标志性的“钟形曲线”：
+                    $$ f(x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$
+                </div>
+
+                <div class="fragment" style="margin-top: 10px;">
+                    <ul style="margin-bottom: 5px;">
+                        <li><strong>$\mu$</strong> 决定了<strong>中心位置</strong>；<strong>$\sigma$</strong> 决定了<strong>高矮胖瘦</strong>（越小越陡峭）。</li>
+                    </ul>
+                    <div class="svg-container">
+                        <svg viewBox="0 0 500 300">
+                            <defs>
+                                <marker id="arrow3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                                </marker>
+                                <marker id="arrowSigma" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a085" />
+                                </marker>
+                                <marker id="arrowSigmaRev" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a085" />
+                                </marker>
+                            </defs>
+                            <line x1="40" y1="260" x2="480" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrow3)"/>
+                            <line x1="250" y1="270" x2="250" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow3)"/>
+                            <path d="M 50 258 C 130 258, 180 60, 250 60 C 320 60, 370 258, 450 258" fill="none" stroke="#2980b9" stroke-width="3"/>
+                            <line x1="250" y1="260" x2="250" y2="60" stroke="#e74c3c" stroke-dasharray="5,5"/>
+                            <line x1="255" y1="160" x2="300" y2="160" stroke="#16a085" stroke-width="2" marker-end="url(#arrowSigma)" marker-start="url(#arrowSigmaRev)"/>
+                            <text x="272" y="150" font-family="serif" font-style="italic" fill="#16a085" font-size="16">σ</text>
+                            <text x="235" y="280" font-family="serif" font-style="italic" fill="#e74c3c" font-weight="bold" font-size="16">μ</text>
+                            <text x="470" y="285" font-family="serif" font-style="italic" font-size="16">x</text>
+                            <text x="260" y="30" font-family="serif" font-style="italic" font-size="16">f(x)</text>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: 标准正态分布与查表法</h3>
+                <p>当 $\mu = 0, \sigma = 1$ 时，我们称之为<strong>标准正态分布</strong>，记为 $Z \sim N(0,1)$。可通过查表直接得到结果。</p>
+                
+                <div class="block fragment">
+                    <div class="block-title">正态分布的标准化转换 (极其重要！)</div>
+                    任何一般正态分布 $X \sim N(\mu, \sigma^2)$ 都可以通过“<strong>减去均值，除以标准差</strong>”的方法，转化为标准正态分布：
+                    $$ Z = \frac{X - \mu}{\sigma} \sim N(0, 1) $$
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>对称性公式：</strong> $\Phi(-z) = 1 - \Phi(z)$。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: "Sports Teacher” 专属例题 (正态分布应用)</h3>
+                <p><strong>例题：</strong> 本学期全校大二男生的 1000 米体测成绩 $X$（单位：秒）近似服从正态分布 $N(230, 20^2)$。（即平均 230 秒，标准差 20 秒）。及格线为 260 秒。</p>
+                <p>求：随机抽查一名男生，他体测<strong>及格</strong>（即成绩 $X \le 260$）的概率。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">目标是求 $P(X \le 260)$。由于 $X \sim N(230, 20^2)$，我们需要标准化。</li>
+                        <li class="fragment">令 $Z = \frac{X - 230}{20}$，则 $Z \sim N(0,1)$。</li>
+                        <li class="fragment">不等式两边同时做标准化处理：<br>
+                            $$ P(X \le 260) = P\left( \frac{X - 230}{20} \le \frac{260 - 230}{20} \right) = P(Z \le 1.5) $$
+                        </li>
+                        <li class="fragment">查表得到：$\Phi(1.5) = \textcolor{#e74c3c}{0.9332}$。<strong>结论：及格率约为 93.32%。</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 6: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P65 (习题 2-3 & 2-4)</div>
+                    <ul>
+                        <li><strong>第 1 题</strong> （利用定积分性质求密度函数里的未知常数）</li>
+                        <li><strong>第 3 题</strong> （均匀分布的区间概率计算）</li>
+                        <li><strong>第 6 题</strong> （指数分布无记忆性的证明与应用）</li>
+                        <li><strong>第 9 题</strong> （正态分布标准化与查表求概率，期末必考题型！）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>学习要求：熟练掌握连续型分布利用定积分求概率的方法，并务必学会查标准正态分布表。</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 设连续型随机变量 $X$ 的概率密度函数为 $f(x)$，则下列关于 $f(x)$ 的描述必定正确的是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$f(x) \le 1$ 对所有 $x$ 成立</li>
+                        <li>$\int_{-\infty}^{+\infty} f(x) dx = 1$</li>
+                        <li>$f(x)$ 表示 $X$ 在 $x$ 处取值的概率</li>
+                        <li>$f(x)$ 必须是连续函数</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：B 是密度函数的规范性定义。A错，只要总面积为1，高度可以大于1；C错，$f(x)$ 并非概率本身（连续变量单点概率为0）；D错，均匀分布的密度函数就存在断点。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 已知某学生练习投掷实心球的落点距离 $X$ 是一个连续型随机变量，那么 $P(X = 10.5\text{米})$ 的概率等于（ ）。</strong></p>
+                    <ol type="A">
+                        <li>1</li>
+                        <li>$0.5$</li>
+                        <li>不能确定</li>
+                        <li>$0$</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：D</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：这是连续型随机变量的核心性质之一，单点概率必定为 0。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：</strong> 若随机变量 $X \sim N(5, 4)$，请问该分布的均值 $\mu$ 和标准差 $\sigma$ 分别是多少？转化公式是？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 均值 $\mu = 5$，方差为 4，所以标准差 $\sigma = 2$（要开根号！）。转化公式为：$Z = \frac{X - 5}{2}$。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：</strong> 已知随机变量 $X$ 服从区间 $(0, 10)$ 上的均匀分布，写出它的概率密度函数 $f(x)$，并计算 $P(2 < X < 5)$ 的值。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>因为区间长度 $10 - 0 = 10$，所以在 $(0,10)$ 上，$f(x) = \frac{1}{10} = 0.1$。其他地方 $f(x)=0$。</li>
+                            <li>求区间概率，即求矩形面积：<br>
+                                <span class="text-blue">$$ P(2 < X < 5) = \int_{2}^{5} 0.1 dx = 0.1 \times (5 - 2) = 0.3 $$</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>
