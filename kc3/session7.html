@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 表格样式 */
+        .reveal table { margin: 10px auto; border-collapse: collapse; width: auto; font-size: 0.9em; }
+        .reveal th, .reveal td { border-bottom: 1px solid #ccc; padding: 8px 20px; text-align: center; }
+        .reveal th { border-top: 2px solid #333; border-bottom: 2px solid #333; font-weight: bold;}
+
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 400px; max-height: 200px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 7: 一维随机变量的函数的分布</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 7: 一维随机变量的函数的分布</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 7: 为什么研究随机变量的函数？</h3>
+                <p><strong>引入：</strong> 在体育测试中，我们往往只能直接测量某个数据（如 400米跑的<strong>时间 $T$</strong>），但我们真正关心的可能是另一个由它算出来的数据（如<strong>平均速度 $V = 400/T$</strong>）。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">核心问题</div>
+                    已知随机变量 $X$ 的分布，若 $Y = g(X)$（$g$ 为连续函数），如何求出新随机变量 $Y$ 的分布？
+                </div>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 300">
+                        <defs>
+                            <marker id="arrow1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <line x1="40" y1="260" x2="480" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrow1)"/>
+                        <line x1="50" y1="270" x2="50" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow1)"/>
+                        
+                        <path d="M 50 260 Q 150 100, 450 40" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        
+                        <line x1="200" y1="260" x2="200" y2="128" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line x1="200" y1="128" x2="50" y2="128" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+                        <polygon points="45,128 55,123 55,133" fill="#e74c3c" /> <circle cx="200" cy="128" r="5" fill="#e74c3c"/>
+                        
+                        <text x="190" y="280" font-family="serif" font-style="italic" font-size="16">x₀</text>
+                        <text x="25" y="133" font-family="serif" font-style="italic" font-size="16">y₀</text>
+                        <text x="400" y="35" font-family="serif" font-style="italic" fill="#2980b9" font-weight="bold" font-size="16">Y = g(X)</text>
+                        <text x="450" y="285" font-family="sans-serif" font-size="16">X (测量值)</text>
+                        <text x="60" y="30" font-family="sans-serif" font-size="16">Y (目标值)</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 7: 离散型随机变量的函数的分布</h3>
+                <p>对于离散型随机变量，求函数的分布非常简单！<strong>口诀：“代入求值，概率相加”。</strong></p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>例题：</strong> 设 $X$ 的分布律如下，求 $Y = X^2$ 的分布律。</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>$X$</th><th>$-1$</th><th>$0$</th><th>$1$</th><th>$2$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$P$</td><td>$0.2$</td><td>$0.3$</td><td>$0.4$</td><td>$0.1$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li>第一步：把 $X$ 代入 $Y = X^2$。$Y$ 可能的值为 $(-1)^2=1, 0^2=0, 1^2=1, 2^2=4$。即 $Y$ 取 $0, 1, 4$。</li>
+                        <li class="fragment">第二步：把导致相同 $Y$ 值的概率加起来（如 $Y=1$ 包含 $X=-1$ 和 $X=1$）：</li>
+                    </ul>
+                    <table class="fragment">
+                        <thead>
+                            <tr>
+                                <th>$Y$</th><th>$0$</th><th>$1$</th><th>$4$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$P$</td><td>$0.3$</td><td>$0.2 + 0.4 = \textcolor{#e74c3c}{0.6}$</td><td>$0.1$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 7: 连续型变量函数 —— 万能的“分布函数法”</h3>
+                <p>当 $X$ 是连续型随机变量时，求 $Y=g(X)$ 的概率密度 $f_Y(y)$ 有一个<strong>万能的四步曲</strong>（必须牢记，期末必考！）：</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">分布函数法 (CDF Method)</div>
+                    <ol>
+                        <li class="fragment"><strong>写定义：</strong> 写出 $Y$ 的分布函数定义式 $F_Y(y) = P(Y \le y)$。</li>
+                        <li class="fragment"><strong>代函数：</strong> 将 $Y$ 替换为 $g(X)$，即 $F_Y(y) = P(g(X) \le y)$。</li>
+                        <li class="fragment"><strong>解不等式：</strong> 解出不等式，转化为求 $X$ 的范围区间概率（利用 $f_X(x)$ 的积分求出 $F_Y(y)$）。</li>
+                        <li class="fragment"><strong>求导数：</strong> 对得到的分布函数求导，得到密度函数：$f_Y(y) = F_Y'(y)$。</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 7: "Sports Teacher” 专属例题 (分布函数法)</h3>
+                <p><strong>例题：</strong> 某同学跑 400 米的时间 $X$（单位：秒）服从区间 $[50, 80]$ 上的均匀分布。求他的<strong>平均速度 $Y = \frac{400}{X}$</strong> 的概率密度函数。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong> 已知 $f_X(x) = \frac{1}{30}\ (50 \le x \le 80)$。</p>
+                    <ul>
+                        <li class="fragment">$Y$ 的取值范围：当 $X \in [50, 80]$ 时，$Y \in [5, 8]$。</li>
+                        <li class="fragment"><strong>1. 写定义与代入：</strong> $F_Y(y) = P(Y \le y) = P\left(\frac{400}{X} \le y\right)$</li>
+                        <li class="fragment"><strong>2. 解不等式与积分：</strong> 因为 $X > 0, y > 0$，不等式等价于 $P\left(X \ge \frac{400}{y}\right)$。<br>
+                            $$ F_Y(y) = \int_{\frac{400}{y}}^{80} f_X(x) dx = \int_{\frac{400}{y}}^{80} \frac{1}{30} dx = \frac{1}{30} \left(80 - \frac{400}{y}\right) $$
+                        </li>
+                        <li class="fragment"><strong>3. 求导得密度：</strong> <br>
+                            $$ f_Y(y) = F_Y'(y) = \left( \frac{8}{3} - \frac{40}{3y} \right)' = \textcolor{#e74c3c}{\frac{40}{3y^2}}, \quad 5 \le y \le 8 $$
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 7: 连续型变量函数 —— 快捷的“公式法”</h3>
+                <p>如果函数 $y = g(x)$ 是<strong>严格单调</strong>的（比如一直在增加，或者一直在减少），我们可以直接套用公式，跳过积分过程！</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">定理：公式法 (Formula Method)</div>
+                    设 $X$ 的密度为 $f_X(x)$。若 $y = g(x)$ 严格单调且可导，其反函数为 $x = h(y)$，则 $Y = g(X)$ 的密度函数为：
+                    $$ f_Y(y) = f_X(h(y)) \cdot |h'(y)| $$
+                    <span style="font-size: 0.85em; color: #555;">（注：如果 $y$ 不在 $g(x)$ 的值域内，则 $f_Y(y) = 0$）</span>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>要点防坑提示：</strong></p>
+                    <ul>
+                        <li>一定要先正确解出<strong>反函数 $x = h(y)$</strong>。</li>
+                        <li>公式后面的<strong>绝对值符号 $|h'(y)|$ 绝不能丢</strong>！因为概率密度绝对不能是负数。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 7: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P78 (习题 2-5)</div>
+                    <ul>
+                        <li><strong>第 1 题</strong> （离散型随机变量函数的分布律计算）</li>
+                        <li><strong>第 3 题</strong> （连续型：利用分布函数法求解 $Y = 2X+1$）</li>
+                        <li><strong>第 5 题</strong> （连续型：利用公式法求解严格单调函数的分布）</li>
+                        <li><strong>第 7 题</strong> （二次函数模型 $Y=X^2$，注意因为不单调，必须用分布函数法分段！）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>学习要求：请在作业中至少用“分布函数法”完整写出一道题的过程，体会从概率到积分再到求导的逻辑链条！</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 设离散型随机变量 $X$ 的分布律为 $P(X=-1)=0.3, P(X=0)=0.2, P(X=1)=0.5$。若 $Y = |X|$，则 $P(Y=1)$ 的概率是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>0.3</li>
+                        <li>0.5</li>
+                        <li>0.8</li>
+                        <li>1.0</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：当 $X=-1$ 时 $Y=|-1|=1$；当 $X=1$ 时 $Y=|1|=1$。因此 $P(Y=1) = P(X=-1) + P(X=1) = 0.3 + 0.5 = 0.8$。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 在使用公式法 $f_Y(y) = f_X(h(y)) \cdot |h'(y)|$ 求解连续型函数分布时，加上绝对值 $|h'(y)|$ 的核心原因是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>为了计算方便</li>
+                        <li>为了保证积分结果等于 1</li>
+                        <li>为了保证概率密度函数 $f_Y(y) \ge 0$ 非负</li>
+                        <li>数学公式的固定搭配，没有实际物理意义</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：概率密度函数的一个核心基石就是非负性。当原函数 $g(x)$ 单调递减时，其反函数的导数 $h'(y)$ 是负数，不加绝对值就会算出负的概率密度，这在物理意义上是荒谬的。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：</strong> 若想用“公式法”直接求解连续型随机变量 $Y = g(X)$ 的密度函数，函数 $g(x)$ 必须满足什么前提条件？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 函数 $g(x)$ 必须在随机变量 $X$ 的取值范围内是<strong>严格单调</strong>且<strong>可导</strong>的。如果是类似 $y=x^2$ 这种抛物线（存在折返），则不能直接套用公式法，必须使用分布函数法。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：简述题</strong> 请简述使用“分布函数法 (CDF Method)”求解连续型变量函数密度的基本四步曲。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ol>
+                            <li><strong>写定义：</strong> $F_Y(y) = P(Y \le y)$</li>
+                            <li><strong>代函数：</strong> $P(Y \le y) = P(g(X) \le y)$</li>
+                            <li><strong>解不等式求概率：</strong> 解出 $X$ 的范围，并对 $f_X(x)$ 积分求出 $F_Y(y)$。</li>
+                            <li><strong>求导数：</strong> 对得到的分布函数 $F_Y(y)$ 求导，得出 $f_Y(y)$。</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>
