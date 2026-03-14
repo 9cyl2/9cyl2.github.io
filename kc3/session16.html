@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 16 (完结篇)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 隐藏引用标记 */
+        .cite-mark { display: none; }
+        
+        /* 表格样式 */
+        .reveal table { margin: 10px auto; border-collapse: collapse; width: 90%; font-size: 0.85em; }
+        .reveal th, .reveal td { border: 1px solid #7f8c8d; padding: 10px; text-align: center; }
+        .reveal th { background-color: #ecf0f1; font-weight: bold;}
+        
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 600px; max-height: 220px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季 (最终章)</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 16: 假设检验 (Hypothesis Testing)</li>
+                <li>课堂小测: 概念与计算考核</li>
+                <li>全书结课寄语</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 16: 假设检验</h2>
+                <p>统计学的终极法庭：用数据拆穿谎言</p>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 16: 什么是假设检验？</h3>
+                <p><strong>引入：</strong> 某运动品牌推销一款“革命性”短跑钉鞋，号称能显著提升百米成绩。我们校队以前的平均成绩是 12.0 秒。现在让 16 名队员穿上新鞋跑，测得平均成绩是 11.5 秒。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">教练的灵魂拷问</div>
+                    平均成绩提升了 0.5 秒，到底是因为<strong>新鞋真的有用</strong>，还是仅仅因为今天这 16 个人吃得好状态佳（<strong>纯粹由于抽样带来的随机运气</strong>）？
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>假设检验的逻辑：反证法 + 小概率原理</strong><br>
+                    我们先“假定”新鞋没用（大家还是平时的水平），然后看看在这种假定下，出现 11.5 秒这种极端好成绩的概率有多大。如果算出来概率极小（比如不到 5%），我们就<strong>强行推翻最初的假定</strong>，承认新鞋真的牛逼！</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 16: 原假设与备择假设</h3>
+                <p>我们在做检验前，必须先确立场上的“控辩双方”。</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">提出假设 (Hypotheses)</div>
+                    <ul>
+                        <li class="fragment"><strong>原假设 (Null Hypothesis, $H_0$)：</strong> 通常代表“没有变化”、“没有效果”、“等于历史常态值”。它是我们<strong>想要去推翻</strong>的靶子。<br>
+                        <span style="color:#7f8c8d; font-size:0.9em;">（比如：$H_0: \mu = 12.0$，新鞋其实没用）</span></li>
+                        <li class="fragment" style="margin-top: 10px;"><strong>备择假设 (Alternative Hypothesis, $H_1$)：</strong> 通常代表“发生变化了”、“有显著提升”。它是我们<strong>真正想要去证明</strong>的结论。<br>
+                        <span style="color:#7f8c8d; font-size:0.9em;">（比如：$H_1: \mu \lt 12.0$，所需时间真的变短了）</span></li>
+                    </ul>
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p style="color: #c0392b;"><em>核心铁律：统计学的法庭默认 $H_0$ 是无罪的。除非你能提供“铁证”（足够极端的样本数据），否则绝不能轻易拒绝 $H_0$！</em></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 16: 两类错误 (Two Types of Errors)</h3>
+                <p>既然是依据局部概率做整体判决，裁判（统计学家）就一定会发生误判：</p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">真实情况 $\backslash$ 我们的判决</th>
+                                <th style="width: 35%;">拒绝 $H_0$ <br><span style="font-size:0.8em;font-weight:normal;">(判定新鞋有用)</span></th>
+                                <th style="width: 35%;">接受 $H_0$ <br><span style="font-size:0.8em;font-weight:normal;">(判定新鞋没用)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>$H_0$ 实际上为真</strong><br><span style="font-size:0.8em;color:#555;">(新鞋是个智商税)</span></td>
+                                <td style="background-color: #fdf3f2; color: #c0392b; font-weight: bold;">第一类错误 (弃真)<br><span style="font-size:0.8em;font-weight:normal;">(冤枉好人 / 假阳性)</span></td>
+                                <td style="color: #27ae60;">正确判决 😊</td>
+                            </tr>
+                            <tr>
+                                <td><strong>$H_0$ 实际上为假</strong><br><span style="font-size:0.8em;color:#555;">(新鞋真的能提速)</span></td>
+                                <td style="color: #27ae60;">正确判决 😊</td>
+                                <td style="background-color: #ebf5fb; color: #2980b9; font-weight: bold;">第二类错误 (存伪)<br><span style="font-size:0.8em;font-weight:normal;">(放走坏人 / 假阴性)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>显著性水平 $\alpha$：</strong> 即犯<strong>第一类错误</strong>的最大允许概率（通常设为 0.05 或 0.01）。含义是：“我最多只允许自己有 5% 的概率把无效的鞋吹成神鞋”。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 16: 假设检验标准四步曲</h3>
+                <p>期末考试面对任何假设检验的大题，只要严格按照这四步走，一定能拿满分！</p>
+                
+                <div class="alertblock fragment" style="margin-top: 10px;">
+                    <div class="block-title">解题模板四步法</div>
+                    <ol>
+                        <li class="fragment"><strong>提假设：</strong> 根据题意写出 $H_0$ 和 $H_1$。（看是双侧、左侧还是右侧检验）</li>
+                        <li class="fragment"><strong>找统计量：</strong> 确定检验统计量（总体方差已知用 $Z$，方差未知用 $t$），并写出它在 $H_0$ 成立条件下的理论分布。</li>
+                        <li class="fragment"><strong>定拒绝域：</strong> 根据显著性水平 $\alpha$ 和检验方向，查表找出临界值，画出<strong>拒绝域 (Rejection Region, W)</strong>。</li>
+                        <li class="fragment"><strong>做判决：</strong> 把实际的样本数据代入公式，算出一个检验的实测值。如果它落入拒绝域 $W$ 中，就<strong>强力拒绝 $H_0$</strong>；否则不拒绝 $H_0$。</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 16: "Sports Teacher” 专属例题 (单侧 t 检验)</h3>
+                <p><strong>接着上面引入的例子：</strong> 过去队里百米均值 $\mu_0 = 12.0$ 秒。穿新鞋抽测 $n=16$ 人，样本均值 $\bar{x} = 11.5$ 秒，<strong>样本标准差</strong> $s = 0.8$ 秒。在显著性水平 $\alpha=0.05$ 下，新鞋是否真有提速效果？</p>
+                
+                <div class="fragment" style="margin-top: 5px;">
+                    <p><strong>解析：</strong> 总体方差未知，小样本($n=16$)，必须用 <strong>t 检验</strong>。</p>
+                    <ul>
+                        <li class="fragment"><strong>1. 提假设：</strong> $H_0: \mu \ge 12.0$ (没提速)； $H_1: \mu \lt 12.0$ (提速了，左侧检验)</li>
+                        <li class="fragment"><strong>2. 统计量：</strong> 假定 $H_0$ 成立，则 $t = \frac{\bar{X} - \mu_0}{s/\sqrt{n}} \sim t(n-1) = t(15)$。</li>
+                        <li class="fragment"><strong>3. 拒绝域：</strong> 左侧检验找左边尾巴。查表知 $t_{0.05}(15) = 1.753$。所以拒绝域为 $W = \{ t \lt -1.753 \}$。</li>
+                        <li class="fragment"><strong>4. 算实测值：</strong> $t_{obs} = \frac{11.5 - 12.0}{0.8 / \sqrt{16}} = \frac{-0.5}{0.2} = \textcolor{#c0392b}{-2.5}$。</li>
+                        <li class="fragment text-red"><strong>5. 结论：</strong> 因为 $-2.5 \lt -1.753$，落入拒绝域！所以果断<strong>拒绝 $H_0$</strong>，承认新鞋确实能显著提速！</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 16: 拒绝域的几何直观图 (看图说话)</h3>
+                <p>刚刚那道题为什么拒绝 $H_0$？一张图让你秒懂什么叫“落入极端异常的小概率拒绝域”。</p>
+                
+                <div class="fragment svg-container">
+                    
+                    <svg viewBox="0 0 600 220">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                            <clipPath id="leftTail">
+                                <rect x="0" y="0" width="180" height="200" />
+                            </clipPath>
+                        </defs>
+                        <line x1="20" y1="160" x2="580" y2="160" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        <text x="570" y="150" font-family="serif" font-style="italic">t</text>
+                        
+                        <path d="M 50 158 C 150 158, 220 20, 300 20 C 380 20, 450 158, 550 158" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        
+                        <path d="M 50 158 C 150 158, 220 20, 300 20 C 380 20, 450 158, 550 158" fill="rgba(231, 76, 60, 0.5)" clip-path="url(#leftTail)"/>
+                        
+                        <line x1="180" y1="160" x2="180" y2="105" stroke="#c0392b" stroke-width="2" stroke-dasharray="4,4"/>
+                        <text x="180" y="180" text-anchor="middle" font-family="serif" font-weight="bold">-t_α = -1.753</text>
+                        
+                        <text x="120" y="100" text-anchor="middle" font-family="sans-serif" font-weight="bold" fill="#c0392b">拒绝域</text>
+                        <text x="120" y="120" text-anchor="middle" font-family="serif" font-size="12" fill="#c0392b">(面积 α=0.05)</text>
+                        
+                        <text x="300" y="80" text-anchor="middle" font-family="sans-serif" font-weight="bold" fill="#2980b9">接受域 (面积 1-α = 0.95)</text>
+                        <text x="300" y="100" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#7f8c8d">如果在合理波动范围内，就不拒绝H0</text>
+                        <line x1="300" y1="160" x2="300" y2="20" stroke="#7f8c8d" stroke-dasharray="2,4"/>
+                        <text x="300" y="180" text-anchor="middle" font-family="serif" font-size="12">0</text>
+                        
+                        <circle cx="100" cy="160" r="5" fill="#2c3e50"/>
+                        <line x1="100" y1="160" x2="100" y2="40" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrow)"/>
+                        <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-weight="bold" fill="#2c3e50">实测值 t_obs = -2.5</text>
+                        <text x="100" y="15" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50">(太离谱了，必定是真变强了！)</text>
+                    </svg>
+                </div>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与最终考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 在假设检验中，所谓的“显著性水平 $\alpha$” 代表的是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>原假设 $H_0$ 为真的概率</li>
+                        <li>犯第二类错误（存伪）的概率</li>
+                        <li>当 $H_0$ 为真时，却错误地拒绝了 $H_0$ 的概率</li>
+                        <li>检验统计量落入接受域的概率</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：$\alpha$ 就是犯第一类错误（弃真错误 / 冤枉好人）的最大概率限制。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 当我们在做假设检验时，如果我们非常不想“冤枉好人”（即极度害怕犯第一类错误），我们应该把显著性水平 $\alpha$ （ ）。</strong></p>
+                    <ol type="A">
+                        <li>调大（比如从 0.05 调到 0.10）</li>
+                        <li>调小（比如从 0.05 调到 0.01）</li>
+                        <li>保持不变</li>
+                        <li>增加样本容量</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：$\alpha$ 是犯第一类错误的概率上限。调小 $\alpha$ 可以直接降低冤枉好人的概率（让拒绝域变得极小，除非证据极其确凿否则不拒绝）。但这会导致第二类错误（放走坏人）的概率急剧增加。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与逻辑考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：概念辨析</strong> 如果经过计算，实测统计量落在了“接受域”，我们最终的结论术语应该写“证明了原假设 $H_0$ 是完全正确的”，还是写“没有足够的证据拒绝 $H_0$”？为什么？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 必须写<strong>“没有足够的证据拒绝 $H_0$”（或“接受 $H_0$”）</strong>。在统计学中，我们永远无法用样本“100% 证明”一个总体假设是真的。我们只能说，目前的样本数据看起来不算太离谱，不足以让我们推翻它。这和法庭上判决“证据不足，疑罪从无”是一个道理，不代表被告绝对是个圣人。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：流程默写</strong> 回忆一下，对一个方差已知的大样本总体均值 $\mu$ 进行双侧检验（看是否有显著差异）时，检验统计量该写成什么公式？如果显著性水平是 $\alpha$，拒绝域的判断条件是什么？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>方差 $\sigma^2$ 已知，必须使用 <strong>Z 检验</strong>。</li>
+                            <li>检验统计量公式：<span class="text-blue">$ Z = \frac{\bar{X} - \mu_0}{\sigma / \sqrt{n}} $</span>。</li>
+                            <li>因为是双侧检验，所以要把 $\alpha$ 分摊到两边尾巴（各自 $\alpha/2$）。拒绝域条件为：<strong>$|Z_{obs}| \ge z_{\alpha/2}$</strong>。如果算出来的绝对值比临界值还大，就拒绝原假设。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#2c3e50">
+            <h1 style="color: #ecf0f1; font-weight: bold; margin-bottom: 20px;">全剧终</h1>
+            <h3 style="color: #3498db; font-weight: normal;">概率论与数理统计 结课寄语</h3>
+            
+            <div style="text-align: left; width: 80%; margin: 30px auto; color: #bdc3c7; line-height: 1.6; font-size: 0.9em;">
+                <p>同学们，这学期的旅程到此结束。</p>
+                <p class="fragment">概率论与数理统计是现代人工智能、大数据分析、甚至现代前沿体育量化科学的绝对基石。从抛硬币到正态分布，从点估计撒网到法庭般的假设检验……</p>
+                <p class="fragment" style="color: #f1c40f; font-weight: bold;">我们学到的不仅是一堆冰冷的积分公式，更是一种在充满“随机性和不确定性”的世界中，去寻找“确定性规律”和“最优解”的顶级思维方式！</p>
+            </div>
+            
+            <h2 class="fragment" style="color: #e74c3c; margin-top: 40px; font-weight: bold;">祝大家期末考试全员 90+，顺利通关！</h2>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'convex', // 结尾用一个不一样的立体翻页特效
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

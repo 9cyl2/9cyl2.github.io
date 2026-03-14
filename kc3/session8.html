@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 8</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 表格样式优化，增加边缘颜色的突出 */
+        .reveal table { margin: 10px auto; border-collapse: collapse; width: auto; font-size: 0.9em; }
+        .reveal th, .reveal td { border-bottom: 1px solid #ccc; padding: 8px 15px; text-align: center; }
+        .reveal th { border-top: 2px solid #333; border-bottom: 2px solid #333; font-weight: bold;}
+        .td-margin-row { border-left: 2px dashed #e74c3c; color: #e74c3c; font-weight: bold; }
+        .td-margin-col { border-top: 2px dashed #2980b9; color: #2980b9; font-weight: bold; }
+
+        /* 防溢出的 SVG 容器 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 400px; max-height: 200px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 8: 二维随机变量及其分布</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 8: 二维随机变量及其分布</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 8: 为什么要研究多维随机变量？</h3>
+                <p><strong>引入：</strong> 之前我们只研究单个指标（如百米成绩）。但在体育选材时，我们往往需要<strong>同时考察多个指标</strong>：身高 X 和体重 Y、或者单场进球数 X 和助攻数 Y。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">二维随机变量的定义</div>
+                    设 E 是一个随机试验，样本空间为 S。设 $X=X(\omega)$ 和 $Y=Y(\omega)$ 是定义在 S 上的两个随机变量，由它们构成的向量 $(X, Y)$ 叫做<strong>二维随机向量</strong>或<strong>二维随机变量</strong>。
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>核心思想：</strong> $(X,Y)$ 的性质不仅取决于 X 和 Y 各自的分布，还取决于它们之间的<strong>相互关系</strong>（比如身高越高，往往体重也越大，两者并非独立）。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: 二维离散型随机变量 —— 联合分布律</h3>
+                <p>如果 X 和 Y 都是离散型的，我们需要用一个“表格”来描述它们<strong>同时发生</strong>的概率。</p>
+                
+                <div class="block fragment">
+                    <div class="block-title">联合分布律 (Joint PMF)</div>
+                    设 $(X,Y)$ 所有可能取的值为 $(x_i, y_j)$，则称：
+                    $$ P(X = x_i, Y = y_j) = p_{ij} \quad (i,j = 1,2,\dots) $$
+                    为 $(X,Y)$ 的联合分布律。
+                </div>
+
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>性质：</strong> (1) $p_{ij} \ge 0$； (2) $\sum_i \sum_j p_{ij} = 1$ （表格里所有概率总和为 1）。</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>$X \setminus Y$</th><th>$y_1$</th><th>$y_2$</th><th>$\dots$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$x_1$</td><td>$p_{11}$</td><td>$p_{12}$</td><td>$\dots$</td>
+                            </tr>
+                            <tr>
+                                <td>$x_2$</td><td>$p_{21}$</td><td>$p_{22}$</td><td>$\dots$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: 边缘分布律 (Marginal Distribution)</h3>
+                <p><strong>问题：</strong> 有了 $(X,Y)$ 的联合表格，我怎么单独看 X 或 Y 的分布？</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>方法：</strong> <strong>“把不需要的变量加起来消掉！”</strong>（同行或同列相加）</p>
+                    <ul>
+                        <li class="fragment"><strong>关于 X 的边缘分布律：</strong> 固定 $X=x_i$，把所有可能的 Y 的情况加起来。
+                        $$ P(X=x_i) = \sum_{j} p_{ij} \triangleq p_{i\cdot} $$
+                        </li>
+                        <li class="fragment"><strong>关于 Y 的边缘分布律：</strong> 固定 $Y=y_j$，把所有可能的 X 的情况加起来。
+                        $$ P(Y=y_j) = \sum_{i} p_{ij} \triangleq p_{\cdot j} $$
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="fragment center" style="margin-top: 10px;">
+                    <p style="font-size: 0.9em; color: #7f8c8d;"><em>（因为求和结果往往写在表格的“边缘”，所以形象地称为边缘分布！）</em></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: "Sports Teacher” 专属例题 (二维离散)</h3>
+                <p><strong>例题：</strong> 统计某核心控卫在单场比赛中的三分进球数 X (0或1) 和助攻数 Y (5或10)，其联合分布律如下表。求：X 和 Y 的边缘分布律。</p>
+                
+                <div class="fragment">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>$X \setminus Y$</th><th>$5$ (次助攻)</th><th>$10$ (次助攻)</th><th class="td-margin-row">$P(X=x_i)$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$0$ (进)</td><td>$0.1$</td><td>$0.3$</td><td class="td-margin-row fragment">0.4</td>
+                            </tr>
+                            <tr>
+                                <td>$1$ (进)</td><td>$0.4$</td><td>$0.2$</td><td class="td-margin-row fragment">0.6</td>
+                            </tr>
+                            <tr>
+                                <td class="td-margin-col">$P(Y=y_j)$</td><td class="td-margin-col fragment">0.5</td><td class="td-margin-col fragment">0.5</td><td style="font-weight:bold; border-top: 2px dashed #2980b9; border-left: 2px dashed #e74c3c;" class="fragment">1.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>结论：</strong> <br>
+                    单独看三分球 X，他进 0 个的概率是 0.4，进 1 个的概率是 0.6；<br>
+                    单独看助攻 Y，他拿 5 次和 10 次助攻的概率各是 0.5。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: 二维连续型随机变量 —— 联合概率密度</h3>
+                <p>对于连续型变量，联合概率不再是离散的表格，而是一个<strong>二元函数 $f(x,y)$</strong>，代表空间中的一个“曲面”。</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">联合概率密度函数 (Joint PDF)</div>
+                    如果对于平面上的任意区域 D，都有：
+                    $$ P((X,Y) \in D) = \iint_D f(x,y) dx dy $$
+                    则称 $f(x,y)$ 为 $(X,Y)$ 的联合概率密度函数。
+                </div>
+
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 200">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <line x1="250" y1="170" x2="450" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/> <line x1="250" y1="170" x2="100" y2="220" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/> <line x1="250" y1="170" x2="250" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/> <path d="M 150 140 Q 250 20, 350 140 Q 300 190, 150 140" fill="rgba(41, 128, 185, 0.2)" stroke="#2980b9" stroke-width="2"/>
+                        <path d="M 180 130 Q 250 50, 320 130" fill="none" stroke="#2980b9" stroke-width="1.5"/>
+                        <path d="M 210 120 Q 250 80, 290 120" fill="none" stroke="#2980b9" stroke-width="1"/>
+                        
+                        <ellipse cx="250" cy="170" rx="60" ry="20" fill="rgba(231, 76, 60, 0.3)" stroke="#e74c3c" stroke-width="1.5" transform="rotate(-15 250 170)"/>
+                        
+                        <text x="460" y="175" font-family="serif" font-style="italic">y</text>
+                        <text x="80" y="210" font-family="serif" font-style="italic">x</text>
+                        <text x="260" y="30" font-family="serif" font-style="italic">z = f(x,y)</text>
+                        <text x="240" y="175" font-family="serif" font-weight="bold" fill="#c0392b">D</text>
+                        <text x="320" y="80" font-family="sans-serif" font-size="12" fill="#2c3e50">概率 = 曲面下的体积</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: 连续型的边缘概率密度 (Marginal PDF)</h3>
+                <p><strong>核心思想与离散型完全一样：</strong> “把不需要的变量<strong>积分</strong>消掉！”</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">边缘概率密度的计算公式</div>
+                    <ul>
+                        <li><strong>求 X 的边缘密度 $f_X(x)$：</strong> 对 y 从 $-\infty$ 到 $+\infty$ 进行定积分！
+                        $$ f_X(x) = \int_{-\infty}^{+\infty} f(x,y) dy $$
+                        </li>
+                        <li style="margin-top: 10px;"><strong>求 Y 的边缘密度 $f_Y(y)$：</strong> 对 x 从 $-\infty$ 到 $+\infty$ 进行定积分！
+                        $$ f_Y(y) = \int_{-\infty}^{+\infty} f(x,y) dx $$
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p style="color: #e74c3c;"><em>考点提示：计算边缘密度时，最难也最容易错的地方是确定 $f(x,y)$ 不为零的<strong>积分上下限</strong>！一定要先画出定义域 D 的草图。</em></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: 随机变量的独立性 (Independence)</h3>
+                <p>我们在第一章学过事件独立性 $P(AB) = P(A)P(B)$。随机变量的独立性也是同样的道理！</p>
+                
+                <div class="alertblock fragment">
+                    <div class="block-title">独立的判定条件</div>
+                    随机变量 X 和 Y 相互独立，当且仅当：<br>
+                    <strong>联合分布 = 边缘分布的乘积</strong>
+                    <ul>
+                        <li><strong>离散型：</strong> 对表格中所有 $i, j$，都有 $p_{ij} = p_{i\cdot} \times p_{\cdot j}$</li>
+                        <li><strong>连续型：</strong> 在定义域内几乎处处都有 $f(x,y) = f_X(x) \times f_Y(y)$</li>
+                    </ul>
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>回顾刚才的篮球控卫例题：</strong> <br>
+                    联合概率：$P(X=0, Y=5) = 0.1$。<br>
+                    边缘相乘：$P(X=0) \times P(Y=5) = 0.4 \times 0.5 = 0.2$。<br>
+                    因为 $0.1 \neq 0.2$，所以该控卫的三分球和助攻是<strong>不独立的</strong>！（可能手感不好进不了球时，他就会选择多传球拿助攻）</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 8: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P95 (习题 3-1 & 3-2)</div>
+                    <ul>
+                        <li><strong>第 2 题</strong> （已知离散型联合分布律，求未知参数和边缘分布律）</li>
+                        <li><strong>第 4 题</strong> （根据公式 $p_{ij} = p_{i\cdot} p_{\cdot j}$ 判断独立性）</li>
+                        <li><strong>第 7 题</strong> （已知连续型联合密度，利用双重积分求概率体积）</li>
+                        <li><strong>第 10 题</strong> （求解连续型的边缘密度 —— 必须画图确定积分限，期末必考题！）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>学习要求：连续型多维变量的计算强依赖于大家《高等数学》中的二重积分基础，请务必复习如何画积分区域！</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 已知离散型随机变量 $(X,Y)$ 的联合分布律表中，某一行（代表 $X=x_1$）的三个概率值分别是 $0.1, 0.2, 0.15$。则边缘概率 $P(X=x_1)$ 等于（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$0.1$</li>
+                        <li>$0.45$</li>
+                        <li>$1.0$</li>
+                        <li>无法确定，需要知道列的概率</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：求边缘分布就是“把不需要的变量加起来消掉”。固定 $X=x_1$ 的这一行，将对应的所有 $Y$ 发生的概率相加即可，即 $0.1 + 0.2 + 0.15 = 0.45$。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 设连续型随机变量 $(X,Y)$ 的联合概率密度为 $f(x,y)$，若 $X$ 与 $Y$ 相互独立，则必定成立的是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$f(x,y) = f(x) + f(y)$</li>
+                        <li>$f(x,y) = \int f_X(x) dx \int f_Y(y) dy$</li>
+                        <li>$f(x,y) = f_X(x) \cdot f_Y(y)$</li>
+                        <li>$f(x,y) = 1$</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：独立性的核心等式就是“联合分布等于边缘分布的乘积”。对于连续型变量，即表现为联合密度函数等于边缘密度函数的乘积。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：</strong> 判断正误：在一个二维离散型随机变量的联合分布律表格中，只要有<strong>任何一个</strong>格子满足 $p_{ij} \neq p_{i\cdot} \times p_{\cdot j}$，就可以判定 $X$ 和 $Y$ 不独立。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：正确。</strong> 独立性的要求是非常严格的，必须表格中<strong>所有</strong>的 $i, j$ 组合都满足乘积公式，只要找到一个反例，即可直接判定为不独立。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：简述题</strong> 已知二维连续型随机变量的联合密度 $f(x,y)$，请简述求解 $X$ 的边缘密度 $f_X(x)$ 的具体步骤操作。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ol>
+                            <li>写出积分公式：$f_X(x) = \int_{-\infty}^{+\infty} f(x,y) dy$（注意是<strong>对 y 积分</strong>，把 y 消掉）。</li>
+                            <li>根据 $f(x,y)$ 大于 0 的定义域，画出草图。</li>
+                            <li>固定 $x$，画一条平行于 y 轴的穿线，看这条线在定义域内部的起点和终点，从而确定针对 y 的积分上下限，算出积分即可。</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

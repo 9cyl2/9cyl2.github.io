@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 表格样式 */
+        .reveal table { margin: 10px auto; border-collapse: collapse; width: auto; font-size: 0.9em; }
+        .reveal th, .reveal td { border-bottom: 1px solid #ccc; padding: 8px 15px; text-align: center; }
+        .reveal th { border-top: 2px solid #333; border-bottom: 2px solid #333; font-weight: bold;}
+
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 450px; max-height: 180px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 10: 随机变量的数字特征 (期望与方差)</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 10: 随机变量的数字特征</h2>
+                <p>期望与方差</p>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 10: 为什么需要数字特征？</h3>
+                <p><strong>引入：</strong> 要评价一个篮球运动员的水平，把他的每场得分分布律全拿出来看太复杂了。教练往往只问两个问题：</p>
+                <ul>
+                    <li class="fragment">他<strong>平均</strong>每场能拿多少分？</li>
+                    <li class="fragment">他发挥得<strong>稳定</strong>吗？（是神鬼莫测，还是稳如老狗？）</li>
+                </ul>
+                
+                <div class="alertblock fragment" style="margin-top: 20px;">
+                    <div class="block-title">数字特征的核心意义</div>
+                    分布律或密度函数能提供完整信息，但往往难以获取且过于繁琐。<br>
+                    数字特征（如数学期望、方差）能用<strong>极简的常数</strong>高度概括随机变量的最重要性质！
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: 数学期望 (Mathematical Expectation)</h3>
+                <p>数学期望，简称<strong>期望</strong>或<strong>均值</strong>，反映了随机变量取值的“重心”或“加权平均水平”。</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">期望的计算公式</div>
+                    <ul>
+                        <li class="fragment"><strong>离散型：</strong> “取值 $\times$ 概率，全部加起来”。
+                        $$ E(X) = \sum_{k=1}^{\infty} x_k p_k $$
+                        <span style="font-size: 0.85em; color:#555;">（要求级数绝对收敛，否则期望不存在）</span>
+                        </li>
+                        <li class="fragment" style="margin-top: 10px;"><strong>连续型：</strong> “取值 $\times$ 密度，在全空间积分”。
+                        $$ E(X) = \int_{-\infty}^{+\infty} x f(x) dx $$
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: 期望的物理意义 —— 重心</h3>
+                <p>数学期望 $E(X)$ 在物理学上，完美对应了一根质量不均匀长杆的<strong>重心（质心）</strong>！</p>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 200">
+                        <defs>
+                            <marker id="arrowX" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <rect x="50" y="100" width="400" height="10" fill="#bdc3c7" />
+                        <rect x="100" y="70" width="20" height="30" fill="#2980b9" />
+                        <rect x="200" y="40" width="20" height="60" fill="#2980b9" />
+                        <rect x="350" y="80" width="20" height="20" fill="#2980b9" />
+                        <rect x="410" y="50" width="20" height="50" fill="#2980b9" />
+                        <text x="103" y="60" font-family="serif" font-style="italic" font-size="14">p₁</text>
+                        <text x="203" y="30" font-family="serif" font-style="italic" font-size="14">p₂</text>
+                        <text x="353" y="70" font-family="serif" font-style="italic" font-size="14">p₃</text>
+                        <text x="413" y="40" font-family="serif" font-style="italic" font-size="14">p₄</text>
+                        <polygon points="260,110 240,150 280,150" fill="#e74c3c" />
+                        <text x="260" y="170" text-anchor="middle" font-family="sans-serif" font-weight="bold" fill="#c0392b">E(X) (均值/重心)</text>
+                        <line x1="30" y1="190" x2="470" y2="190" stroke="#333" stroke-width="2" marker-end="url(#arrowX)"/>
+                        <text x="460" y="180" font-family="serif" font-style="italic" font-size="16">x</text>
+                        <line x1="110" y1="185" x2="110" y2="195" stroke="#333" stroke-width="2" />
+                        <text x="110" y="175" text-anchor="middle" font-family="serif" font-size="12">x₁</text>
+                        <line x1="210" y1="185" x2="210" y2="195" stroke="#333" stroke-width="2" />
+                        <text x="210" y="175" text-anchor="middle" font-family="serif" font-size="12">x₂</text>
+                        <line x1="360" y1="185" x2="360" y2="195" stroke="#333" stroke-width="2" />
+                        <text x="360" y="175" text-anchor="middle" font-family="serif" font-size="12">x₃</text>
+                    </svg>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 10px;">
+                    <div class="block-title">期望的四大性质 (线性性质，必考！)</div>
+                    <ol>
+                        <li>$E(C) = C$ <span style="color:#555;font-size:0.9em;">(常数的期望还是常数)</span></li>
+                        <li>$E(aX) = a E(X)$ <span style="color:#555;font-size:0.9em;">(常数系数可直接提出来)</span></li>
+                        <li>$E(X + Y) = E(X) + E(Y)$ <span style="color:#e74c3c;font-size:0.9em;">(<strong>无条件成立</strong>，不需要独立！)</span></li>
+                        <li>推论：$E(aX + bY + c) = a E(X) + b E(Y) + c$</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: "Sports Teacher” 专属例题 (数学期望)</h3>
+                <p><strong>例题：</strong> 某篮球队核心后卫在比赛中的单场得分 X 的分布律如下表：</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>$X$ (得分)</th><th>15</th><th>20</th><th>25</th><th>30</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$p_k$ (概率)</td><td>$0.1$</td><td>$0.4$</td><td>$0.3$</td><td>$0.2$</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>求：(1) 他的场均期望得分 $E(X)$。 <br>(2) 若球队设奖金，每得一分奖 1000 元，底薪 5000 元，求他单场奖金 Y 的期望 $E(Y)$。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">(1) 根据定义 $E(X) = \sum x_k p_k$：<br>
+                        $E(X) = 15 \times 0.1 + 20 \times 0.4 + 25 \times 0.3 + 30 \times 0.2 = 1.5 + 8 + 7.5 + 6 = \textcolor{#e74c3c}{23 \text{ 分}}$。
+                        </li>
+                        <li class="fragment" style="margin-top: 5px;">(2) 奖金函数关系为 $Y = 1000X + 5000$。利用期望的线性性质：<br>
+                        $E(Y) = E(1000X + 5000) = 1000E(X) + 5000 = 1000 \times 23 + 5000 = \textcolor{#2980b9}{28000 \text{ 元}}$。
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: 方差 (Variance) 与标准差</h3>
+                <p>知道了平均水平，我们还需要知道数据<strong>波动大小（偏离均值的程度）</strong>，这就引入了方差。</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">方差的定义与计算公式</div>
+                    <strong>定义式：</strong> $D(X) = E \{ [X - E(X)]^2 \}$ （即“偏差平方”的平均值）。<br>
+                    <strong>计算公式（极度重要！）：</strong> <span class="text-red"><strong>$D(X) = E(X^2) - [E(X)]^2$</strong></span>
+                </div>
+
+                <div class="fragment" style="margin-top: 10px;">
+                    <p>由于方差被平方过，为了恢复原数据的单位，我们定义<strong>标准差</strong>：
+                    $$ \sigma(X) = \sqrt{D(X)} $$</p>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 10px;">
+                    <div class="block-title">方差的性质 (注意与期望的区别！)</div>
+                    <ul>
+                        <li>$D(C) = 0$ <span style="color:#555;font-size:0.9em;">(常数不波动，方差为0)</span></li>
+                        <li><span class="text-red"><strong>$D(aX) = a^2 D(X)$</strong></span> <span style="color:#555;font-size:0.9em;">(<strong>系数提出来必须平方！</strong>)</span></li>
+                        <li>$D(X + C) = D(X)$ <span style="color:#555;font-size:0.9em;">(加减常数平移，不改变波动程度)</span></li>
+                        <li>若 X 和 Y <strong>相互独立</strong>，才有 $D(X \pm Y) = D(X) + D(Y)$。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: "Sports Teacher” 专属例题 (方差对比)</h3>
+                <p><strong>例题：</strong> 甲、乙两名射击选手的单次环数分布如下。已知两人平均环数相同 $E(X)=E(Y)=9$。请利用方差判断，教练应派谁去比赛？</p>
+                
+                <div style="display:flex; justify-content:space-around;">
+                    <div>
+                        <p style="text-align:center;font-weight:bold;margin-bottom:0;">甲选手</p>
+                        <table>
+                            <thead><tr><th>$X$</th><th>8</th><th>9</th><th>10</th></tr></thead>
+                            <tbody><tr><td>$p_k$</td><td>0.2</td><td>0.6</td><td>0.2</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <p style="text-align:center;font-weight:bold;margin-bottom:0;">乙选手</p>
+                        <table>
+                            <thead><tr><th>$Y$</th><th>8</th><th>9</th><th>10</th></tr></thead>
+                            <tbody><tr><td>$p_k$</td><td>0.4</td><td>0.2</td><td>0.4</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="fragment" style="margin-top: 5px;">
+                    <p><strong>解析：</strong> 平均分相同，比稳定性（<strong>方差越小越稳定</strong>）。</p>
+                    <ul>
+                        <li class="fragment">算平方的期望 $E(X^2)$：<br>
+                        $E(X^2) = 64(0.2) + 81(0.6) + 100(0.2) = 12.8 + 48.6 + 20 = 81.4$ <br>
+                        $E(Y^2) = 64(0.4) + 81(0.2) + 100(0.4) = 25.6 + 16.2 + 40 = 81.8$
+                        </li>
+                        <li class="fragment">算方差 $D(X) = E(X^2) - [E(X)]^2$：<br>
+                        $D(X) = 81.4 - 9^2 = 81.4 - 81 = \textcolor{#2980b9}{0.4}$ <br>
+                        $D(Y) = 81.8 - 9^2 = 81.8 - 81 = \textcolor{#e74c3c}{0.8}$
+                        </li>
+                        <li class="fragment"><strong>结论：</strong> 甲的方差较小 ($0.4 \lt 0.8$)，甲发挥更稳定，派甲参赛！</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: 常见分布的期望与方差 (必背表格)</h3>
+                <p>为了应对考试，大家必须<strong>肌肉记忆</strong>以下四个核心分布的期望与方差：</p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <table style="width: 80%;">
+                        <thead>
+                            <tr>
+                                <th>分布名称</th><th>记号</th><th>期望 $E(X)$</th><th>方差 $D(X)$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>(0-1) 分布</td><td>$B(1, p)$</td><td class="text-red">$p$</td><td class="text-blue">$p(1-p)$</td>
+                            </tr>
+                            <tr>
+                                <td>二项分布</td><td>$B(n, p)$</td><td class="text-red">$np$</td><td class="text-blue">$np(1-p)$</td>
+                            </tr>
+                            <tr>
+                                <td>泊松分布</td><td>$P(\lambda)$</td><td class="text-red">$\lambda$</td><td class="text-blue">$\lambda$ <span style="font-size:0.8em;color:#555;">(期末最爱考!)</span></td>
+                            </tr>
+                            <tr>
+                                <td>均匀分布</td><td>$U(a,b)$</td><td class="text-red">$\frac{a+b}{2}$</td><td class="text-blue">$\frac{(b-a)^2}{12}$</td>
+                            </tr>
+                            <tr>
+                                <td>指数分布</td><td>$E(\lambda)$</td><td class="text-red">$\frac{1}{\lambda}$</td><td class="text-blue">$\frac{1}{\lambda^2}$</td>
+                            </tr>
+                            <tr>
+                                <td>正态分布</td><td>$N(\mu, \sigma^2)$</td><td class="text-red">$\mu$</td><td class="text-blue">$\sigma^2$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 10: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P125 (习题 4-1 & 4-2)</div>
+                    <ul>
+                        <li><strong>第 2 题</strong> （离散型期望的直接计算）</li>
+                        <li><strong>第 4 题</strong> （连续型密度函数的积分求期望与方差）</li>
+                        <li><strong>第 6 题</strong> （利用方差的性质 $D(aX+b) = a^2D(X)$ 简化计算）</li>
+                        <li><strong>第 8 题</strong> （利用常见分布的期望与方差背诵公式秒杀解题）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>学习要求：必须牢牢记住 $D(X) = E(X^2) - (EX)^2$ 这个计算公式，以及期望与方差提取系数时的区别（一个一次方，一个平方）。</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 已知随机变量 $X$ 的方差为 $D(X) = 4$，则 $D(-2X + 3)$ 的值为（ ）。</strong></p>
+                    <ol type="A">
+                        <li>-5</li>
+                        <li>16</li>
+                        <li>11</li>
+                        <li>-8</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：考察方差的性质。常数平移（+3）不影响方差，即 $D(-2X+3) = D(-2X)$。提出系数要平方：$D(-2X) = (-2)^2 D(X) = 4 \times 4 = 16$。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 设随机变量 $X$ 服从泊松分布 $P(4)$，则 $E(X)$ 与 $D(X)$ 的值分别是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$E(X)=4, D(X)=2$</li>
+                        <li>$E(X)=4, D(X)=16$</li>
+                        <li>$E(X)=4, D(X)=4$</li>
+                        <li>$E(X)=16, D(X)=4$</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：泊松分布的超级特性：它的期望和方差不仅存在，而且数值完全相等，都等于参数 $\lambda$。本题 $\lambda=4$，所以都等于 4。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：简答题</strong> 在体育数据分析中，“数学期望”和“方差”分别代表了运动员成绩的什么现实物理意义？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 数学期望代表了运动员的<strong>平均实力水平</strong>（长期的、整体的发挥中心）；方差代表了运动员表现的<strong>稳定性（波动程度）</strong>，方差越小，发挥越稳定。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：计算题</strong> 抛掷一枚均匀的正六面体骰子，令 $X$ 表示出现的点数。已知 $E(X) = 3.5$。请计算 $E(X^2)$ 和 $D(X)$。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>$X$ 的取值为 $1,2,3,4,5,6$，概率均为 $\frac{1}{6}$。</li>
+                            <li>求 $E(X^2)$：$E(X^2) = 1^2(\frac{1}{6}) + 2^2(\frac{1}{6}) + ... + 6^2(\frac{1}{6}) = \frac{1+4+9+16+25+36}{6} = \frac{91}{6} \approx 15.17$。</li>
+                            <li>求 $D(X)$：利用公式 $D(X) = E(X^2) - (EX)^2 = \frac{91}{6} - (3.5)^2 = \frac{91}{6} - \frac{49}{4} = \frac{35}{12} \approx 2.92$。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 12</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 隐藏引用标记 */
+        .cite-mark { display: none; }
+        
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 500px; max-height: 180px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 12: 大数定律与中心极限定理</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 12: 大数定律与中心极限定理</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 12: 从微观的偶然到宏观的必然</h3>
+                <p><strong>引入：</strong> 在体育比赛中，弱队偶尔能爆冷击败强队（单次试验的<strong>偶然性</strong>）。但如果两队打 1000 场比赛，强队一定会赢下绝大多数（大量重复试验的<strong>必然性</strong>）。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 20px;">
+                    <div class="block-title">本章研究的核心</div>
+                    当随机变量的个数 n 趋向于无穷大时，它们的组合（如算术平均值、总和）会呈现出怎样惊人而优美的规律？这就是<strong>极限定理</strong>的魅力。
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 12: 切比雪夫不等式 (Chebyshev's Inequality)</h3>
+                <p>在讲大数定律前，先介绍一个强大的工具。当我们<strong>不知道变量的具体分布</strong>，只知道它的期望 $\mu$ 和方差 $\sigma^2$ 时，如何估算概率？</p>
+                
+                <div class="block fragment">
+                    <div class="block-title">切比雪夫不等式</div>
+                    设随机变量 X 的期望为 $E(X)=\mu$，方差为 $D(X)=\sigma^2$。则对于任意给定的正数 $\varepsilon \gt 0$，都有：
+                    $$ P(|X - \mu| \ge \varepsilon) \le \frac{\sigma^2}{\varepsilon^2} \quad \text{或等价写为} \quad P(|X - \mu| \lt \varepsilon) \ge 1 - \frac{\sigma^2}{\varepsilon^2} $$
+                </div>
+
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 200">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                            <clipPath id="leftTail">
+                                <rect x="0" y="0" width="130" height="200" />
+                            </clipPath>
+                            <clipPath id="rightTail">
+                                <rect x="370" y="0" width="130" height="200" />
+                            </clipPath>
+                        </defs>
+                        <line x1="20" y1="160" x2="480" y2="160" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        
+                        <path d="M 50 158 C 130 158, 180 30, 250 30 C 320 30, 370 158, 450 158" fill="rgba(231, 76, 60, 0.3)" clip-path="url(#leftTail)"/>
+                        <path d="M 50 158 C 130 158, 180 30, 250 30 C 320 30, 370 158, 450 158" fill="rgba(231, 76, 60, 0.3)" clip-path="url(#rightTail)"/>
+                        
+                        <path d="M 50 158 C 130 158, 180 30, 250 30 C 320 30, 370 158, 450 158" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        
+                        <line x1="250" y1="160" x2="250" y2="30" stroke="#333" stroke-dasharray="5,5"/>
+                        <text x="245" y="180" font-family="serif" font-style="italic" font-weight="bold">μ</text>
+                        
+                        <line x1="130" y1="160" x2="130" y2="130" stroke="#333" stroke-dasharray="5,5"/>
+                        <text x="110" y="180" font-family="serif" font-style="italic">μ - ε</text>
+                        
+                        <line x1="370" y1="160" x2="370" y2="130" stroke="#333" stroke-dasharray="5,5"/>
+                        <text x="350" y="180" font-family="serif" font-style="italic">μ + ε</text>
+                        
+                        <text x="390" y="80" font-family="sans-serif" font-size="12" fill="#c0392b">异常偏差概率限</text>
+                        <line x1="390" y1="90" x2="400" y2="140" stroke="#c0392b" stroke-width="1" marker-end="url(#arrow)"/>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 12: 大数定律 (Law of Large Numbers, LLN)</h3>
+                <p><strong>核心思想：</strong> 只要试验次数足够多，<strong>“样本平均值”一定会逼近“数学期望”</strong>，<strong>“频率”一定会逼近“概率”</strong>。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">伯努利大数定律 (最直观的版本)</div>
+                    设 $n_A$ 是 n 次独立重复试验中事件 A 发生的次数，p 是事件 A 在每次试验中发生的真实概率。则对任意 $\varepsilon \gt 0$：
+                    $$ \lim_{n \to \infty} P\left( \left| \frac{n_A}{n} - p \right| \lt \varepsilon \right) = 1 $$
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>体育大白话解读：</strong> 哪怕一个球员今天手感爆棚 10 投 10 中（频率100%），只要让他连续投 10000 次，他的命中率一定会回归到他真实的实力水平（比如 40% 的概率 p）。这就是大家常说的<strong>均值回归</strong>！</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 12: 中心极限定理 (Central Limit Theorem, CLT)</h3>
+                <p>这是概率论中<strong>最伟大、最神奇</strong>的定理，它解释了为什么自然界中到处都是“正态分布（钟形曲线）”！</p>
+                
+                <div class="block fragment" style="margin-top: 10px;">
+                    <div class="block-title">列维-林德伯格 (Lindeberg-Lévy) 中心极限定理</div>
+                    设 $X_1, X_2, \dots, X_n$ 是<strong>独立同分布</strong>的随机变量，期望为 $\mu$，方差为 $\sigma^2 \gt 0$。<br>
+                    当 n 充分大时，这 n 个变量的<strong>总和</strong> $\sum_{i=1}^n X_i$ 近似服从正态分布：
+                    $$ \sum_{i=1}^n X_i \sim N(n\mu, n\sigma^2) $$
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><span class="text-red"><strong>震碎三观的结论：</strong></span> <strong>无论</strong>这些变量原来是什么鬼分布（哪怕是均匀的、两点的、甚至是不规则的），只要把成千上万个它们<strong>加起来</strong>，最终的总和分布<strong>一定会变成正态分布</strong>！</p>
+                    <p style="font-size:0.5em;color:#fff;"></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 12: 中心极限定理的几何直观</h3>
+                <p>让我们看看“无数个随机因素叠加”是如何化腐朽为神奇的：</p>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 600 200">
+                        <defs>
+                            <marker id="arrowX" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <g transform="translate(20, 30)">
+                            <line x1="0" y1="130" x2="120" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowX)"/>
+                            <line x1="10" y1="140" x2="10" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrowX)"/>
+                            <rect x="30" y="50" width="60" height="80" fill="none" stroke="#2980b9" stroke-width="3"/>
+                            <text x="10" y="10" font-family="sans-serif" font-size="12">单个变量 Xi (方块)</text>
+                        </g>
+
+                        <line x1="180" y1="100" x2="280" y2="100" stroke="#e74c3c" stroke-width="3" marker-end="url(#arrowX)"/>
+                        <text x="230" y="85" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#c0392b">n 取无穷相加</text>
+
+                        <g transform="translate(350, 30)">
+                            <line x1="0" y1="130" x2="220" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowX)"/>
+                            <line x1="110" y1="140" x2="110" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrowX)"/>
+                            <rect x="30" y="120" width="16" height="10" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="46" y="100" width="16" height="30" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="62" y="70" width="16" height="60" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="78" y="45" width="16" height="85" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="94" y="30" width="16" height="100" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="110" y="30" width="16" height="100" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="126" y="45" width="16" height="85" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="142" y="70" width="16" height="60" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="158" y="100" width="16" height="30" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <rect x="174" y="120" width="16" height="10" fill="rgba(41, 128, 185, 0.4)" stroke="#2980b9"/>
+                            <path d="M 20 128 C 60 128, 70 25, 110 25 C 150 25, 160 128, 200 128" fill="none" stroke="#e74c3c" stroke-width="3"/>
+                            <text x="110" y="10" text-anchor="middle" font-family="sans-serif" font-size="12">总和 ΣXi 的分布 (完美钟形)</text>
+                        </g>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 12: "Sports Teacher” 专属例题 (中心极限定理)</h3>
+                <p><strong>例题：</strong> 某球场有 $n=10000$ 名球迷进场。假设每位球迷的体重 $X_i$ 相互独立，且平均体重 $\mu = 70$ 公斤，标准差 $\sigma = 10$ 公斤（哪怕单个体重根本不是正态分布）。看台的最大安全承重为 $705000$ 公斤。<br>
+                求：看台发生超载危险（即球迷总重量 $\gt 705000$）的概率。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">设球迷总重量为 $Y = \sum_{i=1}^{10000} X_i$。</li>
+                        <li class="fragment">根据中心极限定理，因为 $n=10000$ 足够大，$Y$ <strong>被强行转化为正态分布</strong> $N(n\mu, n\sigma^2)$。</li>
+                        <li class="fragment">求出参数：均值 $n\mu = 10000 \times 70 = 700000$。方差 $n\sigma^2 = 10000 \times 100 = 10^6$。标准差 $\sqrt{10^6} = 1000$。</li>
+                        <li class="fragment">所以 $Y \sim N(700000, 1000^2)$。标准化求概率：<br>
+                            $$ P(Y \gt 705000) = P\left( \frac{Y - 700000}{1000} \gt \frac{705000 - 700000}{1000} \right) = P(Z \gt 5) $$
+                        </li>
+                        <li class="fragment text-red"><strong>结论：</strong> 查表知 $\Phi(5) \approx 1$，故 $P(Z \gt 5) \approx 0$。看台非常安全！</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 12: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P150 (习题 5-1 & 5-2)</div>
+                    <ul>
+                        <li><strong>第 2 题</strong> （利用切比雪夫不等式估算未知分布的概率界限）</li>
+                        <li><strong>第 4 题</strong> （解释生活中的频率稳定性与伯努利大数定律的关系）</li>
+                        <li><strong>第 6 题</strong> （多个独立同分布变量求和：利用中心极限定理转化为正态分布计算，期末压轴题绝对核心！）</li>
+                        <li><strong>第 8 题</strong> （二项分布的近似计算：当 n 很大时，用正态分布替代二项分布进行查表）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>复习建议：只要在试卷上看到“大量”、“n>30”、“100个零件的总和”这种字眼，毫无疑问，直接掏出中心极限定理，往正态分布上套！</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 根据林德伯格-列维中心极限定理，大量独立同分布的随机变量之和近似服从（ ）。</strong></p>
+                    <ol type="A">
+                        <li>均匀分布</li>
+                        <li>泊松分布</li>
+                        <li>正态分布</li>
+                        <li>指数分布</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：这是中心极限定理最核心的结论。无数微小、独立的随机因素叠加在一起，其宏观表现必然呈现出正态分布（钟形曲线）。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 设某运动员单次投篮命中的期望得分是 1.2 分。教练让他投篮 10000 次，根据大数定律，他的平均每次得分会（ ）。</strong></p>
+                    <ol type="A">
+                        <li>刚好等于 1.2 分</li>
+                        <li>依概率收敛于 1.2 分</li>
+                        <li>服从正态分布</li>
+                        <li>发散到无穷大</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：大数定律指出，当试验次数足够多时，样本算术平均值会“依概率收敛”于总体的数学期望。不能选 A，因为概率收敛不代表绝对严格相等；不能选 C，平均值收敛于常数，而不是服从正态分布（总和才趋于正态分布）。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：简答题</strong> 请用一句话简述“大数定律”与“中心极限定理”在物理意义或应用场景上的最大区别。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 大数定律探讨的是大量样本的<strong>“平均值”</strong>最终会稳定收敛到一个<strong>“确定的常数”</strong>（期望）；而中心极限定理探讨的是大量样本的<strong>“总和”</strong>最终会呈现出一种<strong>“特定的分布规律”</strong>（正态分布）。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：切比雪夫不等式应用</strong> 某品牌篮球的重量期望为 600g，方差为 25g²。如果规定重量在 580g 到 620g 之间为合格。请利用切比雪夫不等式，估算该篮球合格率的最小值。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>已知 $\mu = 600$，方差 $\sigma^2 = 25$。</li>
+                            <li>合格区间为 $(580, 620)$，即要求 $|X - 600| \lt 20$。所以此处 $\varepsilon = 20$。</li>
+                            <li>代入切比雪夫不等式下界公式：<br>
+                                $P(|X - 600| \lt 20) \ge 1 - \frac{\sigma^2}{\varepsilon^2} = 1 - \frac{25}{20^2} = 1 - \frac{25}{400} = 1 - 0.0625 = 0.9375$。
+                            </li>
+                            <li><span class="text-blue">结论：该篮球的合格率至少为 93.75%。</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

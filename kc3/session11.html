@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 表格样式 */
+        .reveal table { margin: 10px auto; border-collapse: collapse; width: auto; font-size: 0.9em; }
+        .reveal th, .reveal td { border-bottom: 1px solid #ccc; padding: 6px 15px; text-align: center; }
+        .reveal th { border-top: 2px solid #333; border-bottom: 2px solid #333; font-weight: bold;}
+
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 600px; max-height: 200px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 11: 协方差与相关系数</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 11: 协方差与相关系数</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 11: 为什么需要协方差？</h3>
+                <p><strong>引入：</strong> 方差 $D(X)$ 只能衡量“单个变量”的波动。但在体育数据中，我们经常想知道两个变量<strong>是如何协同波动的</strong>。</p>
+                <ul>
+                    <li class="fragment">比如：球员的<strong>身高 X</strong> 与 <strong>场均篮板数 Y</strong>。通常身高越高，篮板越多（同向波动）。</li>
+                    <li class="fragment">比如：百米赛跑的<strong>训练时长 X</strong> 与 <strong>冲刺时间 Y</strong>。训练越久，时间越短（反向波动）。</li>
+                </ul>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">协方差 (Covariance) 的定义</div>
+                    为了衡量这种协同波动的关系，我们定义 X 与 Y 的协方差为：
+                    $$ Cov(X, Y) = E \{ [X - E(X)][Y - E(Y)] \} $$
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px; text-align: center;">
+                    <p><strong>核心计算公式（考试就用它！）：</strong><br>
+                    <span class="text-red" style="font-size: 1.2em;"><strong>$ Cov(X, Y) = E(XY) - E(X)E(Y) $</strong></span></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 11: 协方差的性质</h3>
+                <p>协方差有几个非常重要的代数性质，大家可以把它想象成向量的“内积”。</p>
+                
+                <div class="block fragment" style="margin-top: 10px;">
+                    <div class="block-title">协方差的核心性质</div>
+                    <ul>
+                        <li class="fragment"><strong>1. 对称性：</strong> $Cov(X, Y) = Cov(Y, X)$</li>
+                        <li class="fragment"><strong>2. 自身即方差：</strong> $Cov(X, X) = D(X)$ （自己和自己的协同波动，就是自身的方差）</li>
+                        <li class="fragment"><strong>3. 线性提出常数：</strong> $Cov(aX, bY) = ab \cdot Cov(X, Y)$</li>
+                        <li class="fragment"><strong>4. 分配律：</strong> $Cov(X+Y, Z) = Cov(X, Z) + Cov(Y, Z)$</li>
+                    </ul>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>方差展开公式（上节课挖的坑今天补上了）：</strong><br>
+                    $$ D(X \pm Y) = D(X) + D(Y) \pm 2Cov(X, Y) $$
+                    <span style="font-size: 0.9em; color: #7f8c8d;"><em>（只有当 X 与 Y 独立时，$Cov(X,Y)=0$，后一项才会消失！）</em></span></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 11: 相关系数 (Correlation Coefficient)</h3>
+                <p><strong>协方差的缺陷：</strong> 它的数值大小受单位影响极大！比如用米和厘米算出的协方差完全不同，导致难以统一评判相关性的“强弱”。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">相关系数的定义 (标准化)</div>
+                    为了消除量纲（单位）的影响，我们将协方差除以两者的标准差，得到<strong>相关系数 $\rho_{XY}$</strong>：
+                    $$ \rho_{XY} = \frac{Cov(X, Y)}{\sqrt{D(X)} \sqrt{D(Y)}} $$
+                </div>
+
+                <div class="fragment" style="margin-top: 20px; text-align: center;">
+                    <p><strong>神奇的边界性质：</strong> <br>无论 X 和 Y 是什么分布，以下不等式永远成立！<br>
+                    <span class="text-red" style="font-size: 1.2em;"><strong>$ -1 \le \rho_{XY} \le 1 $</strong></span></p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 11: 相关系数的几何直观 (散点图)</h3>
+                <p>相关系数 $\rho$ 本质上衡量的是两个变量之间的<strong>线性相关程度</strong>（即散点图有多像一条直线）。</p>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 900 300">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        
+                        <g transform="translate(50, 40)">
+                            <line x1="0" y1="200" x2="200" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                            <line x1="20" y1="220" x2="20" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                            <text x="195" y="220" font-family="serif" font-style="italic">X</text>
+                            <text x="0" y="30" font-family="serif" font-style="italic">Y</text>
+                            
+                            <circle cx="50" cy="160" r="4" fill="#2980b9"/><circle cx="80" cy="130" r="4" fill="#2980b9"/>
+                            <circle cx="90" cy="150" r="4" fill="#2980b9"/><circle cx="120" cy="80" r="4" fill="#2980b9"/>
+                            <circle cx="150" cy="90" r="4" fill="#2980b9"/><circle cx="170" cy="50" r="4" fill="#2980b9"/>
+                            <line x1="30" y1="180" x2="180" y2="40" stroke="#e74c3c" stroke-width="2" stroke-dasharray="6,4"/>
+                            <text x="100" y="240" text-anchor="middle" font-family="sans-serif" font-weight="bold">正相关 ρ &gt; 0</text>
+                        </g>
+
+                        <g transform="translate(350, 40)">
+                            <line x1="0" y1="200" x2="200" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                            <line x1="20" y1="220" x2="20" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                            <text x="195" y="220" font-family="serif" font-style="italic">X</text>
+                            <text x="0" y="30" font-family="serif" font-style="italic">Y</text>
+                            
+                            <circle cx="50" cy="50" r="4" fill="#16a085"/><circle cx="70" cy="80" r="4" fill="#16a085"/>
+                            <circle cx="100" cy="70" r="4" fill="#16a085"/><circle cx="130" cy="130" r="4" fill="#16a085"/>
+                            <circle cx="150" cy="160" r="4" fill="#16a085"/><circle cx="180" cy="170" r="4" fill="#16a085"/>
+                            <line x1="30" y1="40" x2="180" y2="180" stroke="#e74c3c" stroke-width="2" stroke-dasharray="6,4"/>
+                            <text x="100" y="240" text-anchor="middle" font-family="sans-serif" font-weight="bold">负相关 ρ &lt; 0</text>
+                        </g>
+
+                        <g transform="translate(650, 40)">
+                            <line x1="0" y1="200" x2="200" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                            <line x1="20" y1="220" x2="20" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                            <text x="195" y="220" font-family="serif" font-style="italic">X</text>
+                            <text x="0" y="30" font-family="serif" font-style="italic">Y</text>
+                            
+                            <circle cx="110" cy="110" r="4" fill="#7f8c8d"/><circle cx="70" cy="110" r="4" fill="#7f8c8d"/>
+                            <circle cx="150" cy="110" r="4" fill="#7f8c8d"/><circle cx="110" cy="70" r="4" fill="#7f8c8d"/>
+                            <circle cx="110" cy="150" r="4" fill="#7f8c8d"/><circle cx="80" cy="80" r="4" fill="#7f8c8d"/>
+                            <circle cx="140" cy="140" r="4" fill="#7f8c8d"/><circle cx="140" cy="80" r="4" fill="#7f8c8d"/>
+                            <circle cx="80" cy="140" r="4" fill="#7f8c8d"/>
+                            <text x="100" y="240" text-anchor="middle" font-family="sans-serif" font-weight="bold">不相关 ρ = 0</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>极端情况：</strong> 当 $|\rho| = 1$ 时，散点百分之百落在一条直线上，说明 X 和 Y 存在严格的线性函数关系 $Y = aX + b$。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 11: 独立 vs 不相关 (期末选择题必考坑点！)</h3>
+                <p><strong>“独立”</strong> 和 <strong>“不相关”</strong> 是一回事吗？绝对不是！</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">两者的逻辑关系</div>
+                    <ul>
+                        <li><strong>独立 $\Rightarrow$ 不相关：</strong> 如果两个变量互相独立（完全没关系），那么它们肯定没有“线性关系”，所以协方差为0，<strong>必然不相关</strong>。</li>
+                        <li style="margin-top: 10px;"><strong>不相关 $\not\Rightarrow$ 独立：</strong> 不相关<strong>仅仅代表没有“线性关系”</strong>！它们可能存在强烈的“曲线关系”（比如 $Y = X^2$），此时算出来 $\rho = 0$，但它们显然是不独立的。</li>
+                    </ul>
+                </div>
+
+                <div class="fragment" style="margin-top: 15px; text-align: center;">
+                    <p><span class="text-red" style="font-size: 1.1em;"><strong>唯一的例外（超级重点）：</strong></span><br>
+                    当 $(X,Y)$ 服从<strong>二维正态分布</strong>时，独立 和 不相关 是<strong>完全等价</strong>的！</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 11: "Sports Teacher” 专属例题 (协方差计算)</h3>
+                <p><strong>例题：</strong> 统计某控卫的单场助攻数 X (5或10) 与得分 Y (10或20) 的联合分布律如下表。求 $Cov(X,Y)$。</p>
+                
+                <div class="fragment">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>$X \setminus Y$</th><th>$10$ 分</th><th>$20$ 分</th><th>$P(X)$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$5$ 次</td><td>$0.4$</td><td>$0.1$</td><td>$0.5$</td>
+                            </tr>
+                            <tr>
+                                <td>$10$ 次</td><td>$0.1$</td><td>$0.4$</td><td>$0.5$</td>
+                            </tr>
+                            <tr>
+                                <td>$P(Y)$</td><td>$0.5$</td><td>$0.5$</td><td>$1.0$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="fragment" style="margin-top: 5px;">
+                    <p><strong>解析：</strong> 使用公式 $Cov(X,Y) = E(XY) - E(X)E(Y)$。</p>
+                    <ul>
+                        <li class="fragment">算边缘期望：$E(X) = 5(0.5)+10(0.5) = 7.5$； $E(Y) = 10(0.5)+20(0.5) = 15$。</li>
+                        <li class="fragment">算联合期望：$E(XY) = \sum\sum (x_i y_j \cdot p_{ij}) $ <br>
+                        $= (5\times10\times0.4) + (5\times20\times0.1) + (10\times10\times0.1) + (10\times20\times0.4) = 120$。</li>
+                        <li class="fragment">$Cov(X,Y) = 120 - 7.5 \times 15 = 120 - 112.5 = \textcolor{#e74c3c}{7.5}$。</li>
+                        <li class="fragment"><strong>结论：</strong> 协方差 $\gt 0$，说明助攻与得分<strong>正相关</strong>（状态好时两者往往同时高）。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 11: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P135 (习题 4-3)</div>
+                    <ul>
+                        <li><strong>第 1 题</strong> （利用公式 $Cov(X,Y) = E(XY)-E(X)E(Y)$ 计算二维离散型的协方差）</li>
+                        <li><strong>第 3 题</strong> （利用方差与协方差的性质计算 $D(2X-3Y)$）</li>
+                        <li><strong>第 5 题</strong> （判断给定的 X 和 Y 是否不相关、是否独立）</li>
+                        <li><strong>第 7 题</strong> （连续型二维变量相关系数 $\rho_{XY}$ 的计算，重在二重积分计算！）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>学习要求：请务必分清“独立”与“不相关”的逻辑关系陷阱。熟练掌握由联合分布律表格顺推协方差的完整三步计算流程。</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 已知随机变量 $X$ 和 $Y$ 满足 $D(X+Y) = D(X) + D(Y)$，则下列说法一定正确的是（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$X$ 和 $Y$ 相互独立</li>
+                        <li>$X$ 和 $Y$ 不相关</li>
+                        <li>$X$ 和 $Y$ 呈完全正相关</li>
+                        <li>$X$ 和 $Y$ 服从正态分布</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：由方差展开公式 $D(X+Y) = D(X) + D(Y) + 2Cov(X,Y)$ 可知，如果该等式成立，则说明 $Cov(X,Y)=0$。协方差为0的定义就是两者“不相关”。注意，不能选A，因为不相关推不出独立。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 若随机变量 $X, Y$ 的相关系数 $\rho_{XY} = -1$，则说明它们之间存在（ ）。</strong></p>
+                    <ol type="A">
+                        <li>严格的正比例函数关系</li>
+                        <li>严格的反比例（负相关）线性关系</li>
+                        <li>没有任何关系</li>
+                        <li>相互独立</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：当 $|\rho| = 1$ 时，两变量存在严格的线性关系 $Y = aX+b$。又因为 $\rho = -1 < 0$，所以系数 $a < 0$，即存在严格的递减线性关系。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：概念辨析</strong> “如果 X 和 Y 相互独立，那么它们一定不相关。反过来，如果 X 和 Y 不相关，它们也一定相互独立。”这句话对吗？为什么？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：前半句对，后半句错。</strong> 独立一定能推出不相关；但不相关（$\rho=0$）只能说明没有“线性关系”，它们可能存在其他非线性的函数关系（如 $Y=X^2$），此时显然不独立。唯有在二维正态分布中，两者才完全等价。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：综合计算</strong> 已知 $D(X) = 4, D(Y) = 9$，且 $X$ 和 $Y$ 的相关系数 $\rho_{XY} = 0.5$。求 $Cov(X,Y)$ 以及 $D(X - Y)$ 的值。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>由公式 $\rho_{XY} = \frac{Cov(X, Y)}{\sqrt{D(X)} \sqrt{D(Y)}}$，代入数据得 $0.5 = \frac{Cov(X,Y)}{\sqrt{4}\sqrt{9}} = \frac{Cov(X,Y)}{2 \times 3}$。<br>得出 <span class="text-blue">$Cov(X,Y) = 0.5 \times 6 = 3$</span>。</li>
+                            <li>利用方差的加减公式：<br>
+                                $D(X - Y) = D(X) + D(Y) - 2Cov(X,Y)$ <br>
+                                <span class="text-blue">$= 4 + 9 - 2(3) = 13 - 6 = 7$</span>。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

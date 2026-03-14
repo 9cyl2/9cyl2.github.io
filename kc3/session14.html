@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 14</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 隐藏引用标记 */
+        .cite-mark { display: none; }
+        
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 500px; max-height: 180px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 14: 参数估计（点估计）</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 14: 参数估计（点估计）</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 14: 什么是参数估计？</h3>
+                <p><strong>引入：</strong> 我们知道全校男生的身高服从正态分布 $N(\mu, \sigma^2)$，但我们<strong>不知道</strong>具体的均值 $\mu$ 和方差 $\sigma^2$ 到底是多少。这两个未知的常数就叫<strong>未知参数</strong>。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">点估计 (Point Estimation) 的核心任务</div>
+                    从总体中抽取一个样本 $X_1, X_2, \dots, X_n$，利用构造的公式算出一个<strong>具体的数值</strong>，直接作为未知参数 $\theta$ 的估计值。
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>体育大白话：</strong> 就像球探去考察一个新球员，看他打了 5 场比赛（抽取样本），然后向老板汇报：“我估计他真实的场均得分能力是 22 分”。这个“22分”就是点估计值！</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: 绝招一 —— 矩估计法 (Method of Moments)</h3>
+                <p><strong>核心思想（简单粗暴）：</strong> 用“样本”的特征去强行代替“总体”的特征！<br>
+                即：<strong>“样本均值”代替“总体期望”，“样本方差”代替“总体方差”</strong>。</p>
+                
+                <div class="block fragment" style="margin-top: 15px;">
+                    <div class="block-title">矩估计法的操作步骤</div>
+                    <ol>
+                        <li class="fragment"><strong>列方程：</strong> 令总体的期望 $E(X)$ 等于样本均值 $\bar{X}$。（如果有两个未知参数，就再令总体的二阶矩 $E(X^2)$ 等于样本的平方均值 $\frac{1}{n}\sum X_i^2$）。</li>
+                        <li class="fragment" style="margin-top: 5px;"><strong>解方程：</strong> 把未知参数当成未知数，从上述等式中解出来。解出来的表达式戴上“帽子 ($\hat{}$)”即为矩估计量。</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: "Sports Teacher” 专属例题 (矩估计)</h3>
+                <p><strong>例题：</strong> 体育课上测某项反应速度，假设学生的反应时间 $X$ 服从均匀分布 $U(0, \theta)$，其中最高延迟 $\theta$ 未知。现抽取 5 名学生，成绩为：$0.2, 0.4, 0.3, 0.5, 0.6$（秒）。<br>
+                求 $\theta$ 的矩估计值。</p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">总体 $X \sim U(0, \theta)$，根据上节课背诵的表格，其期望 $E(X) = \frac{0 + \theta}{2} = \frac{\theta}{2}$。</li>
+                        <li class="fragment">令总体期望等于样本均值：$E(X) = \bar{X} \implies \frac{\theta}{2} = \bar{X}$。</li>
+                        <li class="fragment">解出参数 $\theta$：$\hat{\theta} = 2\bar{X}$。这就是<strong>矩估计量</strong>的公式。</li>
+                        <li class="fragment">代入具体的样本数据：$\bar{x} = \frac{0.2+0.4+0.3+0.5+0.6}{5} = \frac{2.0}{5} = 0.4$。</li>
+                        <li class="fragment text-red"><strong>结论：</strong> 参数 $\theta$ 的矩估计值为 $\hat{\theta} = 2 \times 0.4 = 0.8 \text{ 秒}$。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: 绝招二 —— 极大似然估计 (MLE)</h3>
+                <p><strong>核心思想（存在即合理）：</strong> 既然这组特定的样本在几十万种可能性中被我抽中了，说明这组样本发生的<strong>概率（似然度）必定是极其大的</strong>！我们就去寻找那个能让概率最大化的参数。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 10px;">
+                    <div class="block-title">极大似然估计 (MLE) 期末必考四步曲</div>
+                    <ol>
+                        <li class="fragment"><strong>写出似然函数 $L(\theta)$：</strong> 把所有独立样本的概率（或密度）<strong>连乘</strong>起来：<br>
+                        $L(\theta) = \prod_{i=1}^n f(x_i; \theta)$</li>
+                        <li class="fragment"><strong>取对数（极其关键！）：</strong> 对 $L(\theta)$ 取自然对数 $\ln L(\theta)$，把连乘变成连加，大大简化求导！</li>
+                        <li class="fragment"><strong>求导并令其为 0：</strong> 令 $\frac{d \ln L(\theta)}{d\theta} = 0$，解出 $\theta$。</li>
+                        <li class="fragment"><strong>带上帽子：</strong> 解出的 $\hat{\theta}$ 即为极大似然估计量。</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: 极大似然估计的几何直观</h3>
+                <p>通过求导寻找 $\ln L(\theta)$ 曲线的最高点，该最高点对应的横坐标就是我们苦苦寻找的最优参数 $\hat{\theta}_{MLE}$。</p>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 200">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <line x1="40" y1="160" x2="480" y2="160" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="50" y1="170" x2="50" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        <text x="470" y="180" font-family="serif" font-style="italic" font-size="16">θ (参数)</text>
+                        <text x="10" y="30" font-family="serif" font-style="italic" font-size="16">L(θ)</text>
+                        
+                        <path d="M 50 150 Q 150 150, 250 40 T 450 150" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        
+                        <circle cx="250" cy="40" r="5" fill="#e74c3c"/>
+                        <line x1="200" y1="40" x2="300" y2="40" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="260" y="35" font-family="sans-serif" font-size="12" fill="#c0392b">导数为0 (斜率=0)</text>
+                        
+                        <line x1="250" y1="40" x2="250" y2="160" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="240" y="180" font-family="serif" font-style="italic" font-weight="bold" fill="#c0392b">θ_MLE</text>
+                        <text x="210" y="195" font-family="sans-serif" font-size="10" fill="#2c3e50">使样本发生概率最大的参数</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: "Sports Teacher” 专属例题 (极大似然)</h3>
+                <p><strong>例题：</strong> 考察某球员的三分球命中率 $p$（未知）。让该球员投篮 $n$ 次，发现命中了 $k$ 次。请用极大似然法估计他的真实命中率 $p$。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment"><strong>1. 写似然函数：</strong> 投中 $k$ 次，没中 $n-k$ 次，其发生的总概率（即似然函数）为：<br>
+                        $L(p) = C_n^k p^k (1-p)^{n-k}$</li>
+                        <li class="fragment"><strong>2. 取对数：</strong> （常数 $C_n^k$ 求导时会变为0，可不管）<br>
+                        $\ln L(p) = \ln(C_n^k) + k \ln p + (n-k) \ln(1-p)$</li>
+                        <li class="fragment"><strong>3. 求导等于 0：</strong> 对参数 $p$ 求导：<br>
+                        $\frac{d \ln L(p)}{dp} = \frac{k}{p} - \frac{n-k}{1-p} = 0$</li>
+                        <li class="fragment"><strong>4. 解方程：</strong> 交叉相乘得 $k(1-p) = p(n-k) \implies k - kp = np - kp \implies \hat{p} = \textcolor{#e74c3c}{\frac{k}{n}}$。</li>
+                        <li class="fragment"><strong>结论：</strong> 命中率的最大似然估计就是他的<strong>样本命中频率</strong>！存在即合理，非常符合直觉！</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: 评判估计量的好坏 —— 无偏性</h3>
+                <p>同一个参数，用不同方法可能算出不同的估计式。这就需要评判标准，最核心的就是<strong>无偏性 (Unbiasedness)</strong>：即估计量 $\hat{\theta}$ 的<strong>数学期望</strong>刚好等于真实参数 $\theta$。</p>
+                
+                <div class="fragment" style="display: flex; justify-content: space-around; margin-top: 15px; text-align: center;">
+                    <div style="flex: 1;">
+                        <svg viewBox="0 0 160 160" style="background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 200px; max-height: 160px; display: inline-block;">
+                            <g transform="translate(80, 80)">
+                                <circle cx="0" cy="0" r="60" fill="none" stroke="#bdc3c7" stroke-width="2"/>
+                                <circle cx="0" cy="0" r="40" fill="none" stroke="#95a5a6" stroke-width="2"/>
+                                <circle cx="0" cy="0" r="20" fill="#e74c3c"/> <circle cx="-30" cy="20" r="4" fill="#2c3e50"/><circle cx="35" cy="-10" r="4" fill="#2c3e50"/>
+                                <circle cx="10" cy="-35" r="4" fill="#2c3e50"/><circle cx="-15" cy="-25" r="4" fill="#2c3e50"/>
+                                <circle cx="20" cy="30" r="4" fill="#2c3e50"/><circle cx="-5" cy="15" r="4" fill="#2c3e50"/>
+                            </g>
+                        </svg>
+                        <p style="font-weight: bold; font-size: 0.9em; margin-top: 10px; line-height: 1.3;">
+                            无偏估计<br>
+                            <span style="font-size: 0.8em; color: #555; font-weight: normal;">(打得散，但整体中心对准靶心)</span>
+                        </p>
+                    </div>
+
+                    <div style="flex: 1;">
+                        <svg viewBox="0 0 160 160" style="background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 200px; max-height: 160px; display: inline-block;">
+                            <g transform="translate(80, 80)">
+                                <circle cx="0" cy="0" r="60" fill="none" stroke="#bdc3c7" stroke-width="2"/>
+                                <circle cx="0" cy="0" r="40" fill="none" stroke="#95a5a6" stroke-width="2"/>
+                                <circle cx="0" cy="0" r="20" fill="#e74c3c"/> <circle cx="40" cy="-30" r="4" fill="#2c3e50"/><circle cx="45" cy="-20" r="4" fill="#2c3e50"/>
+                                <circle cx="35" cy="-25" r="4" fill="#2c3e50"/><circle cx="50" cy="-35" r="4" fill="#2c3e50"/>
+                                <circle cx="30" cy="-40" r="4" fill="#2c3e50"/><circle cx="40" cy="-15" r="4" fill="#2c3e50"/>
+                            </g>
+                        </svg>
+                        <p style="font-weight: bold; font-size: 0.9em; color: #c0392b; margin-top: 10px; line-height: 1.3;">
+                            有偏估计<br>
+                            <span style="font-size: 0.8em; color: #555; font-weight: normal;">(打得密，但准星存在系统偏差)</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 14: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P195 (习题 7-1)</div>
+                    <ul>
+                        <li><strong>第 1 题</strong> （利用一阶矩 $E(X)=\bar{X}$ 求解单参数指数分布的矩估计）</li>
+                        <li><strong>第 3 题</strong> （分别求泊松分布的矩估计和极大似然估计，并对比两者结果）</li>
+                        <li><strong>第 5 题</strong> （连续型极大似然估计的标准四步曲，熟练掌握连乘转连加的对数技巧）</li>
+                        <li><strong>第 8 题</strong> （验证某个估计量是否具有无偏性，即利用期望的性质计算 $E(\hat{\theta})$）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>复习建议：极大似然估计 (MLE) 是数理统计中最重要、最精妙的算法！期末考试必定有一道 10-15 分的计算大题，请务必把“连乘-取对数-求导=0”这四步曲刻在 DNA 里。</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 在矩估计法中，如果是单参数的估计，我们通常令（ ）等于样本均值 $\bar{X}$。</strong></p>
+                    <ol type="A">
+                        <li>总体的方差 $D(X)$</li>
+                        <li>总体的极大似然函数 $L(\theta)$</li>
+                        <li>总体的数学期望 $E(X)$</li>
+                        <li>样本的方差 $S^2$</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：矩估计的核心思想就是“用样本矩代替总体矩”。一阶样本矩就是样本均值 $\bar{X}$，对应的一阶总体矩就是总体的数学期望 $E(X)$。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 设 $\hat{\theta}$ 是总体未知参数 $\theta$ 的一个估计量。若 $\hat{\theta}$ 是无偏估计，则必须满足（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$D(\hat{\theta}) = \theta$</li>
+                        <li>$E(\hat{\theta}) = \theta$</li>
+                        <li>$\hat{\theta} = \theta$</li>
+                        <li>$\lim_{n \to \infty} P(|\hat{\theta} - \theta| \lt \varepsilon) = 1$</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：B项是无偏性的严格数学定义，即估计量的数学期望等于被估计的真实参数。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：概念简答</strong> 为什么在进行“极大似然估计 (MLE)”计算时，我们通常要在求导之前，先对似然函数 $L(\theta)$ 取自然对数 $\ln$ 呢？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 因为似然函数 $L(\theta)$ 是由 n 个样本的概率<strong>连乘</strong>得到的，直接对连乘积求导极其复杂且容易出错。取对数后，利用 $\ln(a \cdot b) = \ln(a) + \ln(b)$ 的性质，可以将<strong>连乘转化为连加</strong>，极大地简化了后续的求导运算。由于 $\ln(x)$ 是单调递增函数，使 $\ln L(\theta)$ 最大的参数 $\theta$，也必定能使原似然函数 $L(\theta)$ 最大。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：计算挑战</strong> 设总体 $X$ 服从参数为 $\lambda$ 的泊松分布 $P(\lambda)$。现取得样本 $x_1, x_2, \dots, x_n$。已知泊松分布的期望 $E(X) = \lambda$。请用<strong>矩估计法</strong>求参数 $\lambda$ 的矩估计值。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>第一步（列方程）：写出总体的一阶矩，即期望 $E(X) = \lambda$。</li>
+                            <li>第二步（代入样本）：令总体期望等于样本均值，即 $E(X) = \bar{X}$。</li>
+                            <li>第三步（解方程）：代入得 $\lambda = \bar{X}$。</li>
+                            <li>第四步（戴帽子）：所以 $\lambda$ 的矩估计量为 <span class="text-red">$\hat{\lambda} = \bar{X}$</span>。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

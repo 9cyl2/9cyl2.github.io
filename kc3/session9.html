@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 9</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 表格样式 */
+        .reveal table { margin: 10px auto; border-collapse: collapse; width: auto; font-size: 0.9em; }
+        .reveal th, .reveal td { border-bottom: 1px solid #ccc; padding: 8px 20px; text-align: center; }
+        .reveal th { border-top: 2px solid #333; border-bottom: 2px solid #333; font-weight: bold;}
+
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 350px; max-height: 180px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 9: 二维随机变量的函数的分布</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 9: 二维随机变量的函数的分布</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 9: 为什么研究二维变量的函数？</h3>
+                <p><strong>引入：</strong> 在体育竞技中，很多最终成绩是多个指标的“组合”。</p>
+                <ul>
+                    <li class="fragment"><strong>加法模型：</strong> 4×100米接力赛，总成绩 $Z$ 是第一棒 $X$ 和第二棒 $Y$ 的时间之和，即 $Z = X + Y$。</li>
+                    <li class="fragment"><strong>最值模型：</strong> 跳远比赛允许跳两次（成绩为 $X$ 和 $Y$），最终成绩取最好的一次，即 $Z = \max(X, Y)$。</li>
+                </ul>
+                
+                <div class="alertblock fragment" style="margin-top: 20px;">
+                    <div class="block-title">核心目标</div>
+                    已知 $(X,Y)$ 的联合分布，求 $Z = g(X,Y)$ 的分布。
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 9: 离散型 —— 简单粗暴的“穷举法”</h3>
+                <p>对于离散型随机变量，求 $Z = g(X,Y)$ 的分布律，方法和一维完全一样！<br>
+                <strong>口诀：“算出所有可能的 Z，把 Z 相同的概率加起来”。</strong></p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>例题：</strong> 设 $(X,Y)$ 的联合分布律如下，求 $Z = X + Y$ 的分布律。</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>$X \setminus Y$</th><th>$0$</th><th>$1$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$0$</td><td>$0.2$</td><td>$0.3$</td>
+                            </tr>
+                            <tr>
+                                <td>$1$</td><td>$0.1$</td><td>$0.4$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析合并过程：</strong></p>
+                    <ul>
+                        <li>$X,Y$ 组合有：$(0,0), (0,1), (1,0), (1,1)$。对应的 $Z$ 分别为：$0, 1, 1, 2$。</li>
+                        <li>合并同类项（$Z=1$ 包含两种情况）：<br>
+                        $P(Z=0) = 0.2$ <br>
+                        $P(Z=1) = P(X=0,Y=1) + P(X=1,Y=0) = 0.3 + 0.1 = \textcolor{#e74c3c}{0.4}$ <br>
+                        $P(Z=2) = 0.4$</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 9: 连续型 —— 两个变量的和 Z = X+Y</h3>
+                <p><strong>问题：</strong> 设连续型变量 $(X,Y)$ 具有联合密度 $f(x,y)$，求 $Z = X+Y$ 的密度函数 $f_Z(z)$。</p>
+                
+                <p class="fragment">利用分布函数法 $F_Z(z) = P(X+Y \le z) = \iint_{x+y \le z} f(x,y) dx dy$ 并在求导后，得到了著名的<strong>卷积公式 (Convolution)</strong>：</p>
+
+                <div class="alertblock fragment">
+                    <div class="block-title">卷积公式</div>
+                    $$ f_Z(z) = \int_{-\infty}^{+\infty} f(x, z-x) dx \quad \text{或} \quad f_Z(z) = \int_{-\infty}^{+\infty} f(z-y, y) dy $$
+                </div>
+
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 400 200">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                        </defs>
+                        <polygon points="50,180 250,180 50,30" fill="rgba(41, 128, 185, 0.2)" />
+                        <line x1="40" y1="180" x2="380" y2="180" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="50" y1="190" x2="50" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="30" y1="45" x2="280" y2="202" stroke="#2980b9" stroke-width="2" />
+                        <line x1="250" y1="180" x2="250" y2="175" stroke="#333" stroke-width="2" />
+                        <line x1="50" y1="30" x2="55" y2="30" stroke="#333" stroke-width="2" />
+                        <text x="245" y="195" font-family="serif" font-style="italic">z</text>
+                        <text x="35" y="35" font-family="serif" font-style="italic">z</text>
+                        <text x="370" y="195" font-family="serif" font-style="italic">x</text>
+                        <text x="35" y="30" font-family="serif" font-style="italic">y</text>
+                        <text x="210" y="100" font-family="sans-serif" font-size="14" fill="#2980b9" transform="rotate(-30 210 100)">x + y = z</text>
+                        <text x="100" y="130" font-family="sans-serif" font-size="14" fill="#2c3e50">x + y &le; z</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 9: "Sports Teacher” 专属例题 (加法模型)</h3>
+                <p><strong>例题 (独立正态的叠加)：</strong> 某两名田径队员进行接力赛，第一棒用时 $X \sim N(12, 1^2)$，第二棒用时 $Y \sim N(11, 2^2)$，且两人发挥相互独立。求他们总用时 $Z = X+Y$ 的分布。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong> 这里给大家介绍一个超级大招（期末可直接用）——<strong>正态变量的“再生性”</strong>。</p>
+                </div>
+
+                <div class="block fragment">
+                    <div class="block-title">正态分布的线性可加性</div>
+                    如果 $X$ 和 $Y$ <strong>相互独立</strong>，且都服从正态分布，那么它们的和 $Z = X+Y$ <strong>依然服从正态分布</strong>！
+                    <ul>
+                        <li><strong>新均值：</strong> $\mu_Z = \mu_X + \mu_Y$</li>
+                        <li><strong>新方差：</strong> $\sigma^2_Z = \sigma^2_X + \sigma^2_Y$</li>
+                    </ul>
+                </div>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p>代入数据：<br>
+                    均值 $\mu_Z = 12 + 11 = 23$。<br>
+                    方差 $\sigma^2_Z = 1^2 + 2^2 = 1 + 4 = 5$。<br>
+                    <strong>结论：</strong> 两人接力总用时 $Z \sim N(23, 5)$。</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 9: 最大值与最小值分布 (极值分布)</h3>
+                <p>在实际情况中，我们常关心一个系统的瓶颈（木桶效应、最小值）或者最佳表现（最好成绩、最大值）。设 X 和 Y 是<strong>相互独立</strong>的随机变量，分布函数分别为 $F_X(x)$ 和 $F_Y(y)$。</p>
+                
+                <div class="alertblock fragment" style="margin-top: 10px;">
+                    <div class="block-title">1. 最大值分布 $M = \max(X,Y)$</div>
+                    $M \le z$ 意味着 X 和 Y <strong>同时</strong>小于等于 z。<br>
+                    $$ F_{\max}(z) = P(\max(X,Y) \le z) = P(X \le z, Y \le z) $$
+                    因为独立，所以：<span class="text-red"><strong>$F_{\max}(z) = F_X(z) \cdot F_Y(z)$</strong></span>
+                </div>
+                
+                <div class="block fragment" style="margin-top: 10px;">
+                    <div class="block-title">2. 最小值分布 $N = \min(X,Y)$ (正难则反！)</div>
+                    $N \gt z$ 意味着 X 和 Y <strong>同时</strong>大于 z。<br>
+                    $$ P(N \gt z) = P(X \gt z, Y \gt z) = P(X \gt z)P(Y \gt z) $$
+                    所以：<span class="text-blue"><strong>$F_{\min}(z) = 1 - [1-F_X(z)][1-F_Y(z)]$</strong></span>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 9: "Sports Teacher” 专属例题 (极值模型)</h3>
+                <p><strong>例题：</strong> 在跳远测试中，某学生有两次试跳机会，两次成绩 $X, Y$ 相互独立，且都服从区间 $[4, 6]$ 上的均匀分布。最终成绩取两次中的最大值 $Z = \max(X,Y)$。求 Z 的分布函数。</p>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>解析：</strong></p>
+                    <ul>
+                        <li class="fragment">首先，单次跳远 $X \sim U(4,6)$ 的分布函数为：<br>
+                            $F_X(z) = 0$ (当 $z \lt 4$)； $F_X(z) = \frac{z-4}{2}$ (当 $4 \le z \lt 6$)； $F_X(z) = 1$ (当 $z \ge 6$)。
+                        </li>
+                        <li class="fragment" style="margin-top: 10px;">既然 X 和 Y 同分布且独立，根据最大值公式：<br>
+                            $F_Z(z) = F_{\max}(z) = F_X(z) \cdot F_Y(z) = [F_X(z)]^2$
+                        </li>
+                        <li class="fragment" style="margin-top: 10px;">最终成绩的分布函数直接平方即为：<br>
+                            $F_Z(z) = 0$ (当 $z \lt 4$)； <br>
+                            <span class="text-red">$F_Z(z) = \frac{(z-4)^2}{4}$ (当 $4 \le z \lt 6$)；</span> <br>
+                            $F_Z(z) = 1$ (当 $z \ge 6$)。
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 9: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P105 (习题 3-3)</div>
+                    <ul>
+                        <li><strong>第 1 题</strong> （二维离散型求 Z=X+Y 的分布律，查漏补缺合并同类项）</li>
+                        <li><strong>第 3 题</strong> （利用卷积公式求连续型 Z=X+Y 的密度，注意积分区间的划分！）</li>
+                        <li><strong>第 5 题</strong> （正态分布加法定理的应用，类似接力赛模型）</li>
+                        <li><strong>第 7 题</strong> （$\max$ 和 $\min$ 最值分布公式的直接应用，期末必考大题！）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>复习建议：第三章的内容至此全部结束。二维变量的难点在于“积分区间的确定”，大家务必多画图、多体会图形与概率边界的关系！</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 已知独立随机变量 $X \sim N(0, 1)$ 和 $Y \sim N(0, 1)$，则 $Z = X + Y$ 服从（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$N(0, 1)$</li>
+                        <li>$N(0, 2)$</li>
+                        <li>$N(0, \sqrt{2})$</li>
+                        <li>无法确定</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：根据独立正态分布的可加性，均值相加 $0+0=0$，方差相加 $1+1=2$。所以 $Z \sim N(0,2)$。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 设系统由两个相同的部件串联而成（只要有一个坏，系统就崩溃）。若部件寿命相互独立且分布函数均为 $F(x)$，则系统寿命 $Z$ 的分布函数为（ ）。</strong></p>
+                    <ol type="A">
+                        <li>$F(x) \cdot F(x)$</li>
+                        <li>$1 - [1-F(x)]^2$</li>
+                        <li>$2F(x)$</li>
+                        <li>$F(x)$</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：串联系统的寿命实际上等于两个部件寿命的“最小值”（短板效应）。因此 $Z = \min(X,Y)$，套用公式 $F_{\min}(z) = 1 - [1-F_X(z)][1-F_Y(z)]$ 即得 B。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：简述</strong> 为什么在求解最大值分布 $M = \max(X,Y) \le z$ 时，可以直接转化为 $X \le z$ 且 $Y \le z$？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：</strong> 因为如果一组数中的“最大值”都已经小于或等于 $z$ 了，那么这组数里的“所有其他数”必定也都小于或等于 $z$。这是一个极其重要的等价事件转化逻辑。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：计算</strong> 设离散型变量 $X$ 取 0, 1，概率各为 0.5；$Y$ 取 0, 1，概率也各为 0.5。且 $X, Y$ 相互独立。求 $Z = \max(X,Y)$ 为 0 的概率。</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>要求 $Z = \max(X,Y) = 0$。</li>
+                            <li>因为 $X, Y$ 只能取 0 或 1，所以最大值为 0 的唯一情况就是：$X=0$ 且 $Y=0$ 同时发生。</li>
+                            <li>因为相互独立，所以 $P(\max(X,Y)=0) = P(X=0, Y=0) = P(X=0) \times P(Y=0) = 0.5 \times 0.5 = 0.25$。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>

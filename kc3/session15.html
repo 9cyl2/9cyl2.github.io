@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>《概率论与数理统计》课件 - Session 15</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+
+    <style>
+        .reveal { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; text-transform: none; color: #23373b; font-weight: 600; }
+        
+        .reveal section { text-align: left; font-size: 0.8em; max-height: 100vh; overflow-y: auto !important; overflow-x: hidden;}
+        .reveal .center { text-align: center; }
+        
+        .block, .alertblock, .exampleblock { margin: 10px 0; padding: 10px; border-radius: 4px; font-size: 0.95em; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .block { background-color: #f0f4f8; border-top: 4px solid #2c3e50; }
+        .alertblock { background-color: #fdf3f2; border-top: 4px solid #e74c3c; }
+        .exampleblock { background-color: #f2f9f6; border-top: 4px solid #16a085; }
+        .block-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
+        
+        .text-blue { color: #2980b9; }
+        .text-teal { color: #16a085; }
+        .text-red { color: #e74c3c; }
+        
+        .reveal ul, .reveal ol { margin-bottom: 10px; }
+        .reveal li { margin-bottom: 5px; }
+        
+        /* 隐藏引用标记 */
+        .cite-mark { display: none; }
+        
+        /* 防溢出的纯手工自绘图形容器样式 */
+        .svg-container { display: flex; justify-content: center; margin-top: 10px; }
+        svg { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); max-width: 550px; max-height: 180px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section class="center">
+            <h2>《概率论与数理统计》（32学时）</h2>
+            <h4>2025-2026 学年第二学期</h4>
+            <br>
+            <p>授课教师：sports teacher</p>
+            <p><small>公共基础课学院（部、中心）<br>2026年春季</small></p>
+        </section>
+
+        <section>
+            <h3>课程目录</h3>
+            <ul>
+                <li>Session 15: 参数估计（区间估计）</li>
+                <li>课堂小测: 概念与计算考核</li>
+            </ul>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>Session 15: 参数估计（区间估计）</h2>
+                <div style="width: 100px; height: 3px; background-color: #e74c3c; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>Session 15: 从“点”到“区间”的跨越</h3>
+                <p><strong>引入：</strong> 上节课我们学了“点估计”。比如我估计某球员的真实三分命中率是 35%。但体育竞技充满波动，他真实的命中率可能是 34.8%，完全精准命中的概率其实是 0！</p>
+                
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <div class="block-title">区间估计 (Interval Estimation) 的核心思想</div>
+                    点估计就像“狙击枪打靶”，虽然准但极易脱靶（误差必然存在）；<br>
+                    区间估计就像<strong>“撒大网”</strong>，我们给出一个范围（比如 32% ~ 38%），并保证这个网有极大的概率（如 95%）能把真实的参数<strong>“兜住”</strong>！
+                </div>
+                
+                <div class="fragment" style="margin-top: 15px;">
+                    <p><strong>构建大网的两个核心要素：</strong></p>
+                    <ul>
+                        <li><strong>准确度：</strong> 网的命中率有多高？（即<strong>置信水平 $1-\alpha$</strong>）</li>
+                        <li><strong>精确度：</strong> 网有多大？（即区间长度，越窄越能锁定目标范围）</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 15: 置信区间 (Confidence Interval, CI)</h3>
+                
+                <div class="block fragment">
+                    <div class="block-title">置信区间的数学定义</div>
+                    对于未知参数 $\theta$，如果我们能利用样本构造出两个统计量 $\hat{\theta}_1$ 和 $\hat{\theta}_2$，使得：
+                    $$ P(\hat{\theta}_1 \lt \theta \lt \hat{\theta}_2) = 1-\alpha $$
+                    那么区间 $(\hat{\theta}_1, \hat{\theta}_2)$ 就称为 $\theta$ 的<strong>置信度为 $1-\alpha$ 的置信区间</strong>。
+                </div>
+
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 180">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                            </marker>
+                            <clipPath id="middleArea">
+                                <rect x="150" y="0" width="200" height="200" />
+                            </clipPath>
+                            <clipPath id="leftTail">
+                                <rect x="0" y="0" width="150" height="200" />
+                            </clipPath>
+                            <clipPath id="rightTail">
+                                <rect x="350" y="0" width="150" height="200" />
+                            </clipPath>
+                        </defs>
+                        <line x1="20" y1="140" x2="480" y2="140" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        
+                        <path d="M 50 138 C 130 138, 180 20, 250 20 C 320 20, 370 138, 450 138" fill="rgba(41, 128, 185, 0.3)" clip-path="url(#middleArea)"/>
+                        <path d="M 50 138 C 130 138, 180 20, 250 20 C 320 20, 370 138, 450 138" fill="rgba(231, 76, 60, 0.4)" clip-path="url(#leftTail)"/>
+                        <path d="M 50 138 C 130 138, 180 20, 250 20 C 320 20, 370 138, 450 138" fill="rgba(231, 76, 60, 0.4)" clip-path="url(#rightTail)"/>
+                        
+                        <path d="M 50 138 C 130 138, 180 20, 250 20 C 320 20, 370 138, 450 138" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        
+                        <line x1="150" y1="140" x2="150" y2="90" stroke="#333" stroke-dasharray="4,4"/>
+                        <text x="145" y="155" font-family="serif" font-style="italic" text-anchor="middle">-z_(α/2)</text>
+                        
+                        <line x1="350" y1="140" x2="350" y2="90" stroke="#333" stroke-dasharray="4,4"/>
+                        <text x="355" y="155" font-family="serif" font-style="italic" text-anchor="middle">z_(α/2)</text>
+                        
+                        <text x="250" y="80" text-anchor="middle" font-family="sans-serif" font-weight="bold" fill="#2c3e50">置信水平 1-α (如95%)</text>
+                        <text x="100" y="130" font-family="serif" font-style="italic" font-weight="bold" fill="#c0392b">α/2</text>
+                        <text x="400" y="130" font-family="serif" font-style="italic" font-weight="bold" fill="#c0392b">α/2</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 15: 正态总体均值的区间估计 (方差已知)</h3>
+                <p><strong>场景：</strong> 假设我们知道球队整体实力的历史波动情况（即总体方差 $\sigma^2$ 已知），现在要评估这段时间的真实平均实力 $\mu$。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>推导方法：</strong> 把样本均值 $\bar{X}$ 标准化，利用标准正态分布 $Z \sim N(0,1)$。<br>
+                    $$ P\left( -z_{\alpha/2} \lt \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \lt z_{\alpha/2} \right) = 1-\alpha $$
+                    把未知的参数 $\mu$ 从不等式中间解出来，立刻得到置信区间：</p>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 10px;">
+                    <div class="block-title">方差已知时的 $\mu$ 置信区间</div>
+                    $$ \left( \bar{X} - \frac{\sigma}{\sqrt{n}} z_{\alpha/2}, \quad \bar{X} + \frac{\sigma}{\sqrt{n}} z_{\alpha/2} \right) $$
+                    <span style="font-size:0.85em;color:#555;"><em>（公式中的 $\pm$ 后面的部分被称为<strong>边际误差 / 抽样误差</strong>）</em></span>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 15: 正态总体均值的区间估计 (方差未知)</h3>
+                <p><strong>真实场景：</strong> 在实际体育测试中，总体方差 $\sigma^2$ <strong>几乎永远是未知的</strong>！我们只能退而求其次，用样本算出来的样本方差 $S^2$ 去代替它。</p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p>根据 Session 13 学过的知识，一旦用样本标准差 S 替代总体标准差 $\sigma$，统计量分布就会“变胖”，即从正态分布变成了 <strong>t 分布</strong>！<br>
+                    $$ \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t(n-1) $$
+                    </p>
+                </div>
+
+                <div class="block fragment" style="margin-top: 10px;">
+                    <div class="block-title">方差未知时的 $\mu$ 置信区间 (期末必考公式！)</div>
+                    将上个公式里的 $\sigma$ 换成 $S$，$z$ 换成 $t$ 分布的临界值：
+                    $$ \left( \bar{X} - \frac{S}{\sqrt{n}} t_{\alpha/2}(n-1), \quad \bar{X} + \frac{S}{\sqrt{n}} t_{\alpha/2}(n-1) \right) $$
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 15: "Sports Teacher” 专属例题 (t区间估计)</h3>
+                <p><strong>例题：</strong> 教练为了评估全队真实的平均纵跳高度 $\mu$。随机抽测了 9 名队员，测得平均纵跳高度 $\bar{x} = 65$ cm，<strong>样本标准差</strong> $s = 6$ cm。假定纵跳服从正态分布。<br>
+                求：全队平均纵跳高度 $\mu$ 的 95% 置信区间。 <span style="font-size:0.9em;color:#7f8c8d;"><em>（附表：$t_{0.025}(8) = 2.306$）</em></span></p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p><strong>解析：</strong> 总体方差未知，属于小样本($n=9$)，必用 <strong>t 分布</strong>。</p>
+                    <ul>
+                        <li class="fragment">样本量 $n=9$，自由度 $n-1 = 8$。</li>
+                        <li class="fragment">置信度 $1-\alpha = 0.95 \implies \alpha = 0.05 \implies \alpha/2 = 0.025$。</li>
+                        <li class="fragment">误差半径：$E = \frac{s}{\sqrt{n}} t_{0.025}(8) = \frac{6}{\sqrt{9}} \times 2.306 = 2 \times 2.306 = \textcolor{#2980b9}{4.612}$ cm。</li>
+                        <li class="fragment">区间上下限计算：$[65 - 4.612, 65 + 4.612]$。</li>
+                        <li class="fragment text-red"><strong>结论：</strong> 真实平均纵跳高度有 95% 的把握落在 <strong>$[60.388, 69.612]$</strong> 厘米之间。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 15: 避坑：到底什么是“95% 的置信度”？</h3>
+                <p><strong>经典误区：</strong> “算出来的结果说明，真实的 $\mu$ 有 95% 的概率会落在这个具体的区间 $[60.3, 69.6]$ 里。” <span class="text-red"><strong>（完全错误！）</strong></span></p>
+                
+                <div class="fragment" style="margin-top: 10px;">
+                    <p>真实参数 $\mu$ 是一个<strong>客观存在且不动的定值</strong>，它要么在区间里，要么不在（概率只有1或0）。发生随机波动的其实是我们<strong>抽样撒出来的网</strong>！</p>
+                </div>
+                
+                <div class="fragment svg-container">
+                    <svg viewBox="0 0 500 130">
+                        <line x1="250" y1="10" x2="250" y2="120" stroke="#e74c3c" stroke-width="3" stroke-dasharray="6,4"/>
+                        <text x="255" y="20" font-family="sans-serif" font-weight="bold" fill="#c0392b">真实的 μ (不动)</text>
+                        
+                        <line x1="180" y1="40" x2="300" y2="40" stroke="#2980b9" stroke-width="4"/> <circle cx="240" cy="40" r="3" fill="#fff" stroke="#2980b9"/>
+                        <line x1="220" y1="60" x2="340" y2="60" stroke="#2980b9" stroke-width="4"/> <circle cx="280" cy="60" r="3" fill="#fff" stroke="#2980b9"/>
+                        <line x1="120" y1="80" x2="230" y2="80" stroke="#7f8c8d" stroke-width="4"/> <circle cx="175" cy="80" r="3" fill="#fff" stroke="#7f8c8d"/>
+                        <text x="360" y="85" font-family="sans-serif" font-size="12" fill="#7f8c8d">← 这次抽样太偏，网没罩住 μ</text>
+                        
+                        <line x1="190" y1="100" x2="310" y2="100" stroke="#2980b9" stroke-width="4"/> <circle cx="250" cy="100" r="3" fill="#fff" stroke="#2980b9"/>
+                    </svg>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 5px;">
+                    <div class="block-title">置信度的真实统计学含义</div>
+                    如果按此方法抽取 <strong>100 组</strong>不同的样本，就会算出 100 个不同的网。这 100 个网中，大约有 <strong>95 个能成功罩住真实的 $\mu$</strong>。我们是对这套“撒网的算法”有 95% 的信心！
+                </div>
+            </section>
+
+            <section>
+                <h3>Session 15: 课后作业</h3>
+                <div class="alertblock">
+                    <div class="block-title">本周作业范围：教材 P208 (习题 7-2 & 7-3)</div>
+                    <ul>
+                        <li><strong>第 2 题</strong> （已知方差的大样本均值区间估计，查标准正态分布 Z 表即可）</li>
+                        <li><strong>第 4 题</strong> （未知方差的小样本均值区间估计，查 t 分布表，<strong>切记自由度是 n-1！</strong>）</li>
+                        <li><strong>第 5 题</strong> （分析置信水平 $1-\alpha$ 与样本容量 n 对区间宽度的影响。）</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;"><em>学习要求：在期末考试做大题前先“灵魂三问”：估计的是均值还是方差？总体方差是已知还是未知？是大样本还是小样本？这三点决定了你该去套 Z、t 还是 $\chi^2$ 公式！</em></p>
+            </section>
+        </section>
+
+        <section>
+            <section class="center" data-background-color="#fafafa">
+                <h2>随堂小测：概念与计算考核</h2>
+                <div style="width: 100px; height: 3px; background-color: #2980b9; margin: 20px auto;"></div>
+            </section>
+
+            <section>
+                <h3>选择题挑战</h3>
+                
+                <div class="block fragment">
+                    <p><strong>1. 在其他条件（样本方差、样本容量）不变的情况下，如果将置信水平从 90% 提高到 95%，则算出的置信区间长度会（ ）。</strong></p>
+                    <ol type="A">
+                        <li>变短（区间变窄）</li>
+                        <li>变长（区间变宽）</li>
+                        <li>保持不变</li>
+                        <li>条件不足，无法确定</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：B</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：置信水平越高，说明你想要“网住”真实参数的把握越大。为了增加命中率，在样本量不变的情况下，唯一的方法就是把“网撒得更大一点”（即增大边际误差），所以区间必定变长。</span>
+                    </div>
+                </div>
+
+                <div class="exampleblock fragment" style="margin-top: 15px;">
+                    <p><strong>2. 对正态总体均值 $\mu$ 进行区间估计时，如果总体方差 $\sigma^2$ 未知，应使用哪种分布的临界值？（ ）</strong></p>
+                    <ol type="A">
+                        <li>标准正态分布 Z</li>
+                        <li>卡方分布 $\chi^2$</li>
+                        <li>学生分布 t</li>
+                        <li>F 分布</li>
+                    </ol>
+                    <div class="fragment text-red" style="margin-top: 5px;">
+                        <strong>👉 答案：C</strong> <br>
+                        <span style="font-size: 0.9em; color: #555;">解析：这是期末考试区间估计最核心的判断标准。方差已知用 Z，方差未知用 t。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>概念与计算考核</h3>
+                
+                <div class="block fragment">
+                    <p><strong>考核 1：概念辨析</strong> “某项研究得出该国男子平均身高的 95% 置信区间为 [172cm, 176cm]。” 有人认为“这说明随机抽取一名该国男子，他的身高落在 172 到 176 之间的概率是 95%。”这个说法对吗？为什么？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p class="text-teal"><strong>👉 答案：错误。</strong> 置信区间估计的是“总体的平均值（参数 $\mu$）”，而不是“单个个体的观测值”。正确的说法是：我们有 95% 的信心认为“全国男子的平均身高”落在这个区间内。单个人的身高波动范围远比这个区间大得多。</p>
+                    </div>
+                </div>
+
+                <div class="alertblock fragment" style="margin-top: 15px;">
+                    <p><strong>考核 2：计算结构</strong> 教练想测算球队的平均百米速度。为了使 95% 置信区间的边际误差（即网的半径）减小一半，在保持置信水平不变的情况下，他需要将样本容量 $n$ 增加到原来的多少倍？</p>
+                    <div class="fragment" style="margin-top: 5px;">
+                        <p><strong>👉 解析：</strong></p>
+                        <ul>
+                            <li>置信区间的误差半径公式为 $E = \frac{\sigma}{\sqrt{n}} z_{\alpha/2}$ （或用 t 代替 z）。</li>
+                            <li>可见误差 $E$ 与 $\sqrt{n}$ 成反比。</li>
+                            <li>要让误差 $E$ 缩小为原来的 $\frac{1}{2}$，分母 $\sqrt{n}$ 必须变为原来的 2 倍。</li>
+                            <li>所以样本容量 $n$ 必须变为原来的 <span class="text-blue"><strong>4 倍</strong></span>。这意味着提高精度的成本是非常高昂的（指数级增加样本）。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="center" data-background-color="#23373b">
+            <h1 style="color: white; font-weight: normal;">提问与答疑环节</h1>
+            <p style="color: #bdc3c7; font-size: 1.2em;">Q & A</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: false,
+        hash: true,
+        transition: 'slide', 
+        
+        plugins: [ RevealMath.KaTeX ]
+    });
+</script>
+
+</body>
+</html>
